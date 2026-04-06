@@ -238,8 +238,12 @@ let currentRarity="全部";
 let pendingPlantId=null;
 
 function plantImage(p){
-  const safeName = (p.name || "").replace(/\s+/g,'').replace(/[\\/:*?"<>|]/g,'');
-  return `images/${safeName}.jpg`;
+  const name = (p.name || "")
+    .trim()
+    .replace(/\s+/g,'')
+    .replace(/[（(].*?[）)]/g,''); // 去掉括号内容
+
+  return `images/${name}.jpg`;
 }
 function imageTag(p, extraStyle=""){
   const fallback = p.img || "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80";
