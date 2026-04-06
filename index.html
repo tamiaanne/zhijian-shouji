@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>植间手记 · 生活记录版</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap');
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;
+  font-family:"Noto Serif SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",serif;
+  color:#4f4a42;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(203,221,214,.20), transparent 18%),
+    radial-gradient(circle at 90% 12%, rgba(223,215,231,.16), transparent 22%),
+    radial-gradient(circle at 84% 88%, rgba(233,222,202,.14), transparent 18%),
+    #f7f5f0;
+}
+.app{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:92px;position:relative;overflow:hidden;background:linear-gradient(180deg,#fbfaf7,#f7f5f0 56%,#f2efe8);box-shadow:0 20px 48px rgba(44,54,51,.08)}
+.paper{position:absolute;inset:0;pointer-events:none;opacity:.12;background-image:radial-gradient(rgba(122,101,79,.14) .7px,transparent .7px),radial-gradient(rgba(122,101,79,.10) .6px,transparent .6px);background-size:13px 13px,19px 19px;background-position:0 0,7px 8px}
+.hero{padding:58px 20px 24px;position:relative;overflow:hidden}
+.hero-wash{position:absolute;inset:0;background:radial-gradient(circle at 10% 22%, rgba(186,205,197,.24), transparent 18%),radial-gradient(circle at 88% 18%, rgba(219,212,226,.18), transparent 20%),radial-gradient(circle at 48% 84%, rgba(224,217,198,.14), transparent 16%);filter:blur(4px)}
+.eyebrow,.title,.sub,.stats,.bar-wrap{position:relative;z-index:1}
+.eyebrow{font-size:12px;letter-spacing:.18em;color:#8d8776}
+.title{margin-top:12px;font-size:32px;line-height:1.12;font-weight:700;color:#2f3b37}
+.sub{margin-top:12px;font-size:15px;line-height:1.9;color:#6f756f}
+.stats{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:rgba(255,252,247,.74);border:1px solid #ece2d4;border-radius:18px;padding:12px 10px;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.stat .n{font-size:24px;font-weight:400;color:#6d745d}
+.stat .l{margin-top:4px;font-size:14px;color:#9d9584}
+.bar-wrap{margin-top:14px}
+.bar{height:10px;border-radius:999px;background:rgba(200,209,188,.34);overflow:hidden}
+.bar-inner{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#9fbca0,#d0d8a5);transition:width .3s ease}
+.wrap{padding:16px;position:relative;z-index:1}
+.section-title{margin-top:18px;display:flex;justify-content:space-between;align-items:center;font-size:24px;font-weight:700;color:#31403a}
+.muted{color:#8a8f88;font-size:12px;font-weight:500}
+.card{position:relative;background:rgba(255,255,255,.82);border:1px solid #ebe9e2;border-radius:28px;box-shadow:0 18px 40px rgba(46,59,54,.06);padding:16px;margin-top:14px;overflow:hidden;backdrop-filter:blur(10px)}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 8% 14%, rgba(190,216,193,.10), transparent 14%),radial-gradient(circle at 92% 12%, rgba(233,216,227,.08), transparent 14%);pointer-events:none}
+.row{display:flex;gap:12px}.row>*{flex:1}
+.btn{display:inline-block;width:100%;border:none;border-radius:999px;background:linear-gradient(135deg,#3f5d53,#6e9381);color:#fff;padding:13px 16px;font-size:15px;font-weight:600;box-shadow:0 8px 18px rgba(63,93,83,.18);font-family:inherit}
+.btn.ghost{background:rgba(255,255,255,.72);color:#56615d;border:1px solid #e8e6df;box-shadow:none}
+.btn.small{padding:10px 12px;font-size:14px}
+.search-box{margin-top:14px;display:flex;align-items:center;gap:10px;background:rgba(250,248,243,.95);border-radius:18px;padding:13px 14px;border:1px solid #e6dccf}
+.search-box input,.sheet textarea{border:none;outline:none;background:transparent;width:100%;font-size:14px;color:#55615d;font-family:inherit}
+.chips{display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:2px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:9px 14px;border-radius:999px;background:#f5f6f3;color:#6f7873;font-size:13px;border:1px solid #e8ebe6;font-family:inherit}
+.chip.active{background:#587a6c;color:#fff;border-color:#587a6c;font-weight:600}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.stamp{position:relative;border-radius:30px;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(250,249,246,.95));border:1px solid rgba(232,234,229,.96);box-shadow:0 18px 36px rgba(46,59,54,.07);overflow:hidden;min-height:292px;cursor:pointer}
+.stamp::before{content:"";position:absolute;inset:9px;border:1px dashed rgba(167,178,171,.55);border-radius:22px;pointer-events:none}
+.front-art,.detail-image{position:relative;border-radius:20px;overflow:hidden;background:radial-gradient(circle at 18% 24%, rgba(184,209,199,.34), transparent 22%),radial-gradient(circle at 82% 22%, rgba(223,215,229,.22), transparent 23%),radial-gradient(circle at 44% 82%, rgba(224,220,206,.18), transparent 22%),linear-gradient(180deg,#faf9f5,#f5f4ef);box-shadow:inset 0 0 0 1px rgba(223,211,188,.88)}
+.front-art{height:176px}
+.detail-image{height:220px}
+.front-art img,.detail-image img{position:absolute;inset:12px 12px 20px 12px;width:calc(100% - 24px);height:calc(100% - 32px);object-fit:cover;border-radius:18px;opacity:.9;mix-blend-mode:multiply;filter:saturate(.64) contrast(.94) brightness(1.03);-webkit-mask-image:radial-gradient(circle at 50% 42%, black 48%, transparent 76%);mask-image:radial-gradient(circle at 50% 42%, black 48%, transparent 76%)}
+.wc{position:absolute;border-radius:999px;filter:blur(.2px);z-index:1;opacity:.88}
+.wc1{width:72px;height:30px;left:6px;top:18px;background:rgba(143,188,152,.48);transform:rotate(-12deg)}
+.wc2{width:56px;height:24px;right:10px;top:30px;background:rgba(217,176,200,.38);transform:rotate(15deg)}
+.wc3{width:42px;height:18px;left:40%;bottom:28px;background:rgba(230,202,140,.30);transform:rotate(8deg)}
+.wc4{width:28px;height:12px;left:18px;bottom:22px;background:rgba(170,198,170,.28);transform:rotate(-7deg)}
+.masking-tape{position:absolute;top:8px;left:50%;transform:translateX(-50%) rotate(-3deg);width:60px;height:20px;background:rgba(238,228,182,.64);border:1px dashed rgba(190,173,126,.52);border-radius:4px;z-index:3;box-shadow:0 2px 6px rgba(106,88,56,.06)}
+.leaf-sticker,.poster-sticker{position:absolute;right:10px;bottom:18px;width:58px;height:38px;z-index:3;transform:rotate(-14deg)}
+.poster-sticker{right:22px;bottom:88px;width:52px;height:34px;z-index:2;transform:rotate(-10deg)}
+.leaf-sticker::before,.leaf-sticker::after,.poster-sticker::before,.poster-sticker::after{content:"";position:absolute;border-radius:100% 0 100% 0;background:linear-gradient(135deg,#d8ebd3,#b8d0af);border:2px solid rgba(255,255,255,.94);box-shadow:0 6px 12px rgba(95,129,98,.12)}
+.leaf-sticker::before{width:32px;height:22px;left:0;top:10px;transform:rotate(-14deg)}
+.leaf-sticker::after{width:30px;height:20px;right:2px;top:0;transform:rotate(24deg)}
+.poster-sticker::before{width:30px;height:20px;left:0;top:12px;transform:rotate(-14deg)}
+.poster-sticker::after{width:28px;height:18px;right:2px;top:2px;transform:rotate(24deg)}
+.leaf-sticker span,.poster-sticker span{position:absolute;left:10px;top:18px;width:30px;height:1.5px;background:rgba(91,125,91,.40);transform:rotate(12deg)}
+.stamp-no{position:absolute;top:10px;left:10px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.90);font-size:12px;color:#9a7f54;font-weight:700;letter-spacing:.08em;z-index:3}
+.stamp-stars{position:absolute;top:10px;right:10px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.90);font-size:12px;color:#d69257;font-weight:700;z-index:3}
+.stamp-name{margin-top:10px;font-size:20px;font-weight:700;color:#2f3b37}
+.stamp-sub{margin-top:4px;font-size:12px;color:#8a8f88}
+.seal{position:absolute;right:12px;bottom:10px;border:2px solid rgba(182,94,94,.48);color:rgba(182,94,94,.70);border-radius:999px;padding:5px 8px;font-size:11px;transform:rotate(-12deg);font-weight:700;background:rgba(255,255,255,.18)}
+.timeline-item{padding:14px 0;border-bottom:1px solid #eee5d9}
+.timeline-item:last-child{border-bottom:none}
+.timeline-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;color:#8d8578;font-size:15px}
+.timeline-note{margin-top:10px;background:#faf7f1;border:1px solid #ece1d4;border-radius:16px;padding:10px 12px;color:#6c6356;font-size:17px;line-height:1.6}
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.detail-overlay,.sheet-overlay{position:fixed;inset:0;background:rgba(61,53,45,.35);backdrop-filter:blur(4px);z-index:120;display:none;align-items:flex-end}
+.detail-overlay.show,.sheet-overlay.show{display:flex}
+.detail-sheet,.sheet{width:100%;max-width:430px;margin:0 auto;background:linear-gradient(180deg,#fffaf3,#fbf6ef);border-radius:28px 28px 0 0;border:1px solid #eadfce;box-shadow:0 -10px 30px rgba(85,70,55,.18);padding:16px 16px 22px;position:relative;max-height:86vh;overflow:auto}
+.detail-handle{width:44px;height:5px;border-radius:999px;background:#d6cdbf;margin:0 auto 12px}
+.detail-close{position:absolute;right:14px;top:14px;width:36px;height:36px;border:none;border-radius:999px;background:#f4eee5;color:#6d6558;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
+.detail-title{margin-top:14px;font-size:28px;color:#2f3b37;font-weight:700}
+.detail-sub{margin-top:6px;font-size:14px;color:#7a817b}
+.detail-block{margin-top:14px;background:rgba(255,252,248,.92);border:1px solid #ece1d4;border-radius:20px;padding:14px}
+.detail-meta{font-size:14px;line-height:1.9;color:#55615d}
+.sheet textarea{min-height:96px;resize:none;line-height:1.7}
+.label{font-size:18px;color:#6d624f;margin-bottom:8px}
+.poster{margin-top:14px;border-radius:28px;overflow:hidden;border:1px solid #eadfce;background:radial-gradient(circle at 18% 18%, rgba(190,224,194,.36), transparent 18%),radial-gradient(circle at 82% 16%, rgba(228,205,223,.26), transparent 18%),linear-gradient(180deg,#fbf7f0,#fffaf3);padding:12px}
+.poster-card{border-radius:22px;padding:14px;background:rgba(255,255,255,.82);backdrop-filter:blur(6px);border:1px solid #e7ddd2;position:relative;overflow:hidden}
+.poster-card::before{content:"";position:absolute;top:10px;right:12px;width:56px;height:20px;background:rgba(235,227,180,.62);border:1px dashed rgba(194,174,120,.48);border-radius:4px;transform:rotate(8deg)}
+.poster-card .poster-wc{position:absolute;border-radius:999px;filter:blur(.2px);opacity:.78}
+.poster-card .p1{width:78px;height:30px;left:12px;top:50px;background:rgba(154,196,160,.30);transform:rotate(-10deg)}
+.poster-card .p2{width:60px;height:24px;right:18px;top:66px;background:rgba(216,180,204,.24);transform:rotate(12deg)}
+.poster-card img{width:100%;height:180px;object-fit:cover;border-radius:18px;margin-top:10px;filter:saturate(.78);position:relative;z-index:1}
+.collection-list{margin-top:12px}
+.collection-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #efe7dc}
+.collection-item:last-child{border-bottom:none}
+.tabs{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:430px;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,253,249,.97);backdrop-filter:blur(10px);border-top:1px solid #ece2d5;z-index:50}
+.tab{padding:8px 4px 12px;text-align:center;color:#8d8677;font-size:14px}
+.tab.active{color:#6f9072;font-weight:400}
+.sticker-icon{width:46px;height:46px;margin:0 auto 5px;position:relative;border-radius:15px;background:linear-gradient(180deg,#fffdf9,#f8f0e6);border:1px solid #e7dccd;box-shadow:0 6px 12px rgba(109,93,76,.08);display:flex;align-items:center;justify-content:center}
+.sticker-icon::before{content:"";position:absolute;top:-4px;left:50%;transform:translateX(-50%) rotate(-4deg);width:24px;height:10px;background:rgba(235,227,180,.68);border:1px dashed rgba(194,174,120,.48);border-radius:3px}
+.sticker-icon svg{width:24px;height:24px;position:relative;z-index:1;stroke:#7d735f;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tab.active .sticker-icon svg{stroke:#6f9072}
+.icon-fill{fill:#dbe9d8;stroke:none}
+.icon-fill-soft{fill:#efe4d6;stroke:none}
+.hidden{display:none}
+.empty-box{margin-top:14px;padding:20px;border-radius:22px;background:rgba(255,252,247,.95);text-align:center;color:#a39a8d;font-size:18px;border:1px solid #e7ddd1}
+@media (max-width:360px){.grid{grid-template-columns:1fr}.quick-actions{grid-template-columns:1fr}.title{font-size:26px}}
+.hand-accent{font-family:"Caveat","PingFang SC",cursive;letter-spacing:.02em}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:#f4efe7;padding:2px 5px;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="paper"></div>
+
+<div id="page-home">
+  <div class="hero">
+    <div class="hero-wash"></div>
+    <div class="eyebrow">LIVING BOTANICAL JOURNAL</div>
+    <div class="title"><span class="hand-accent">植间手记</span></div>
+    <div class="sub">把每一次遇见，写成可回看的植物记录。</div>
+    <div class="bar-wrap"><div class="bar"><div class="bar-inner" id="progressBar"></div></div></div>
+    <div class="stats">
+      <div class="stat"><div class="n" id="statCollected">0</div><div class="l">已收集</div></div>
+      <div class="stat"><div class="n" id="statMissing">0</div><div class="l">待遇见</div></div>
+      <div class="stat"><div class="n" id="statPercent">0%</div><div class="l">收集进度</div></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="quick-actions">
+      <button class="btn" onclick="showPage('recognize')">📷 去识别</button>
+      <button class="btn ghost" onclick="showPage('album')">📒 打开手记</button>
+    </div>
+    <div class="card">
+      <div style="font-size:16px;color:#2f3b37;font-weight:700;">已改成自动匹配图片版</div>
+      <div class="muted" style="margin-top:8px;line-height:1.8;">
+        现在只要把植物图片上传到仓库里的 <code>images</code> 文件夹，并按植物编号命名，例如 <code>香樟.jpg</code>、<code>秋枫.jpg</code>、<code>榕树.jpg</code>，页面就会自动匹配。<br>
+        没有对应图片时，会自动显示默认图，不会空白。
+      </div>
+    </div>
+
+    <div class="section-title"><span class="hand-accent">最近记录</span> <span class="muted">像日记一样回看</span></div>
+    <div id="timelineList"></div>
+  </div>
+</div>
+
+<div id="page-recognize" class="hidden">
+  <div class="hero">
+    <div class="hero-wash"></div>
+    <div class="eyebrow">RECOGNIZE</div>
+    <div class="title"><span class="hand-accent">植间手记</span></div>
+    <div class="sub">识别后可以顺手写一句今天的备注。</div>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <button class="btn" onclick="recognize()">拍照识别（模拟）</button>
+      <button class="btn ghost" style="margin-top:10px;" onclick="showPage('album')">直接看手记</button>
+      <div id="recognizeResult"></div>
+    </div>
+  </div>
+</div>
+
+<div id="page-album" class="hidden">
+  <div class="hero">
+    <div class="hero-wash"></div>
+    <div class="eyebrow">NOTEBOOK</div>
+    <div class="title"><span class="hand-accent">手记</span></div>
+    <div class="sub">这里收纳你记录过的植物。点卡片查看详情。</div>
+  </div>
+  <div class="wrap">
+    <div class="search-box"><span>🔍</span><input id="searchInput" placeholder="搜索已收集植物名、别名、学名" oninput="renderAlbum()" /></div>
+    <div class="chips" id="rarityChips"></div>
+    <div id="albumGrid" class="grid"></div>
+  </div>
+</div>
+
+<div id="page-my" class="hidden">
+  <div class="hero">
+    <div class="hero-wash"></div>
+    <div class="eyebrow">MY JOURNAL</div>
+    <div class="title"><span class="hand-accent">我的</span></div>
+    <div class="sub">把每一次遇见，写成可回看的植物记录。</div>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <div style="font-size:20px;color:#2f3b37;font-weight:700;">植物探索者</div>
+      <div class="muted" style="margin-top:6px;">你的收集与记录会自动保存在本机浏览器里。</div>
+      <div class="row" style="margin-top:14px;">
+        <div class="card" style="margin-top:0;padding:14px;text-align:center;"><div style="font-size:22px;color:#6f7960;" id="myCollected">0</div><div class="muted">已收录</div></div>
+        <div class="card" style="margin-top:0;padding:14px;text-align:center;"><div style="font-size:22px;color:#6f7960;" id="myPercent">0%</div><div class="muted">完成度</div></div>
+      </div>
+      <button class="btn" onclick="openPosterFromLatest()">一键生成分享海报</button>
+      <button class="btn ghost" style="margin-top:10px;" onclick="resetData()">清空本地记录</button>
+    </div>
+    <div class="card"><div style="font-size:16px;color:#2f3b37;font-weight:700;">最近记录</div><div id="collectionList" class="collection-list"></div></div>
+    <div id="posterArea"></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-page="home" onclick="showPage('home')"><div class="sticker-icon"><svg viewBox="0 0 24 24"><path class="icon-fill-soft" d="M5 11.2L12 5l7 6.2V19a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19z"/><path d="M3.8 11.5L12 4.5l8.2 7"/><path d="M9.5 20.5v-5.2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5.2"/></svg></div>首页</div>
+  <div class="tab" data-page="recognize" onclick="showPage('recognize')"><div class="sticker-icon"><svg viewBox="0 0 24 24"><path class="icon-fill" d="M5.5 8.5h13a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"/><path d="M8 8.5l1.2-2h5.6l1.2 2"/><circle cx="12" cy="14" r="3.2"/><path d="M7 11.2h.01"/></svg></div>识别</div>
+  <div class="tab" data-page="album" onclick="showPage('album')"><div class="sticker-icon"><svg viewBox="0 0 24 24"><path class="icon-fill-soft" d="M6 4.5h10.5a2 2 0 0 1 2 2v12.8H8a2 2 0 0 0-2 2z"/><path d="M6 4.5h10.5a2 2 0 0 1 2 2v12.8H8a2 2 0 0 0-2 2z"/><path d="M6 4.5v14.8a2 2 0 0 1 2-2h10.5"/><path d="M10 8.5h5.5"/><path d="M10 11.5h5.5"/><path d="M10 14.5h4"/></svg></div>手记</div>
+  <div class="tab" data-page="my" onclick="showPage('my')"><div class="sticker-icon"><svg viewBox="0 0 24 24"><path class="icon-fill" d="M7.5 15.8c3.5 0 6.8-2.3 8.6-6.8-4.5.2-8 3.2-8.6 6.8z"/><path d="M7.5 15.8c3.5 0 6.8-2.3 8.6-6.8-4.5.2-8 3.2-8.6 6.8z"/><path d="M7.2 16.1c-.5 1.1-.7 2.2-.7 3.4"/><path d="M9.2 12.7c1.8.5 3.4 1.5 4.8 3"/></svg></div>我的</div>
+</div>
+
+<div id="detailOverlay" class="detail-overlay" onclick="closeDetail(event)">
+  <div class="detail-sheet" onclick="event.stopPropagation()">
+    <div class="detail-handle"></div>
+    <button class="detail-close" onclick="closeDetail()">×</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<div id="noteSheet" class="sheet-overlay" onclick="closeNoteSheet(event)">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="detail-handle"></div>
+    <div style="font-size:26px;color:#6a5f50;">写一句今天的备注</div>
+    <div class="label" style="margin-top:10px;">今天在哪里遇见它，或者想记下什么？</div>
+    <textarea id="noteInput" placeholder="例如：小区门口看到它开花了。"></textarea>
+    <div class="row" style="margin-top:14px;">
+      <button class="btn ghost" onclick="closeNoteSheet()">先不写</button>
+      <button class="btn" onclick="savePendingPlant()">保存记录</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<script>
+const STORAGE_KEY="plant_journal_stable_v1";
+const plants=[{"id": 1, "no": "001", "name": "荔枝", "alias": "荔枝属", "latin": "Litchi chinensis", "rarity": 2, "desc": "复叶；春季黄绿色圆锥花序；果壳红色具瘤刺", "img": "https://commons.wikimedia.org/w/index.php?search=Litchi%20chinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 2, "no": "002", "name": "龙眼", "alias": "龙眼属", "latin": "Dimocarpus longan", "rarity": 2, "desc": "偶数羽状复叶；果皮黄褐色较光滑；果肉半透明", "img": "https://commons.wikimedia.org/w/index.php?search=Dimocarpus%20longan%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 3, "no": "003", "name": "枇杷", "alias": "枇杷属", "latin": "Eriobotrya japonica", "rarity": 2, "desc": "叶大而厚、背面密绒毛；冬季开白花", "img": "https://commons.wikimedia.org/w/index.php?search=Eriobotrya%20japonica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 4, "no": "004", "name": "芒果", "alias": "芒果属", "latin": "Mangifera indica", "rarity": 3, "desc": "叶披针形；嫩叶铜红；果实大", "img": "https://commons.wikimedia.org/w/index.php?search=Mangifera%20indica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 5, "no": "005", "name": "杨梅", "alias": "杨梅属", "latin": "Morella rubra", "rarity": 2, "desc": "叶革质狭长；果实表面疣状小粒密布", "img": "https://commons.wikimedia.org/w/index.php?search=Morella%20rubra%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 6, "no": "006", "name": "香蕉", "alias": "芭蕉属", "latin": "Musa × paradisiaca", "rarity": 2, "desc": "假茎由叶鞘组成；叶片巨大易撕裂", "img": "https://commons.wikimedia.org/w/index.php?search=Musa%20%C3%97%20paradisiaca%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 7, "no": "007", "name": "木瓜", "alias": "番木瓜属", "latin": "Carica papaya", "rarity": 2, "desc": "树干少分枝、叶掌状深裂；果着生干上", "img": "https://commons.wikimedia.org/w/index.php?search=Carica%20papaya%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 8, "no": "008", "name": "番石榴", "alias": "番石榴属", "latin": "Psidium guajava", "rarity": 3, "desc": "树皮薄片状脱落；叶对生、脉明显", "img": "https://commons.wikimedia.org/w/index.php?search=Psidium%20guajava%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 9, "no": "009", "name": "杨桃", "alias": "杨桃属", "latin": "Averrhoa carambola", "rarity": 2, "desc": "小叶多；果横切五角星形", "img": "https://commons.wikimedia.org/w/index.php?search=Averrhoa%20carambola%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 10, "no": "010", "name": "柑橘", "alias": "柑橘属", "latin": "Citrus reticulata", "rarity": 4, "desc": "叶柄常具狭翅；花白而香", "img": "https://commons.wikimedia.org/w/index.php?search=Citrus%20reticulata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 11, "no": "011", "name": "香樟", "alias": "樟属", "latin": "Cinnamomum camphora", "rarity": 2, "desc": "叶揉有樟脑味，基出三脉明显", "img": "https://commons.wikimedia.org/w/index.php?search=Cinnamomum%20camphora%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 12, "no": "012", "name": "阴香", "alias": "樟属", "latin": "Cinnamomum burmannii", "rarity": 3, "desc": "叶较香樟狭长、气味较淡；常作行道树", "img": "https://commons.wikimedia.org/w/index.php?search=Cinnamomum%20burmannii%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 13, "no": "013", "name": "小叶榕", "alias": "榕属", "latin": "Ficus microcarpa", "rarity": 2, "desc": "树冠巨大；气根常见；叶较小而厚", "img": "https://commons.wikimedia.org/w/index.php?search=Ficus%20microcarpa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 14, "no": "014", "name": "高山榕", "alias": "榕属", "latin": "Ficus altissima", "rarity": 2, "desc": "叶较大，托叶痕明显；树姿开张", "img": "https://commons.wikimedia.org/w/index.php?search=Ficus%20altissima%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 15, "no": "015", "name": "垂叶榕", "alias": "榕属", "latin": "Ficus benjamina", "rarity": 2, "desc": "枝条下垂，叶尖长渐尖", "img": "https://commons.wikimedia.org/w/index.php?search=Ficus%20benjamina%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 16, "no": "016", "name": "菩提树", "alias": "榕属", "latin": "Ficus religiosa", "rarity": 3, "desc": "叶端具长尾尖，心形叶基", "img": "https://commons.wikimedia.org/w/index.php?search=Ficus%20religiosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 17, "no": "017", "name": "秋枫", "alias": "秋枫属", "latin": "Bischofia javanica", "rarity": 2, "desc": "三出复叶；树冠舒展；老树板根明显", "img": "https://commons.wikimedia.org/w/index.php?search=Bischofia%20javanica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 18, "no": "018", "name": "重阳木", "alias": "重阳木属", "latin": "Bischofia polycarpa", "rarity": 2, "desc": "三出复叶，秋色明显，叶较薄", "img": "https://commons.wikimedia.org/w/index.php?search=Bischofia%20polycarpa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 19, "no": "019", "name": "朴树", "alias": "朴树属", "latin": "Celtis sinensis", "rarity": 2, "desc": "叶基常偏斜、边缘上半部具锯齿", "img": "https://commons.wikimedia.org/w/index.php?search=Celtis%20sinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 20, "no": "020", "name": "栾树", "alias": "栾树属", "latin": "Koelreuteria paniculata", "rarity": 4, "desc": "羽状复叶；蒴果灯笼状", "img": "https://commons.wikimedia.org/w/index.php?search=Koelreuteria%20paniculata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 21, "no": "021", "name": "黄花风铃木", "alias": "风铃木属", "latin": "Handroanthus chrysanthus", "rarity": 2, "desc": "先花后叶；满树金黄喇叭花", "img": "https://commons.wikimedia.org/w/index.php?search=Handroanthus%20chrysanthus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 22, "no": "022", "name": "蓝花楹", "alias": "蓝花楹属", "latin": "Jacaranda mimosifolia", "rarity": 2, "desc": "二回羽状复叶；蓝紫色筒花", "img": "https://commons.wikimedia.org/w/index.php?search=Jacaranda%20mimosifolia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 23, "no": "023", "name": "木棉", "alias": "木棉属", "latin": "Bombax ceiba", "rarity": 2, "desc": "树干常有粗刺；先花后叶，花大红色", "img": "https://commons.wikimedia.org/w/index.php?search=Bombax%20ceiba%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 24, "no": "024", "name": "美丽异木棉", "alias": "异木棉属", "latin": "Ceiba speciosa", "rarity": 3, "desc": "树干膨大具刺；花粉白到粉红", "img": "https://commons.wikimedia.org/w/index.php?search=Ceiba%20speciosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 25, "no": "025", "name": "刺桐", "alias": "刺桐属", "latin": "Erythrina variegata", "rarity": 5, "desc": "树干多刺；三出复叶；红花蝶形", "img": "https://commons.wikimedia.org/w/index.php?search=Erythrina%20variegata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 26, "no": "026", "name": "鸡冠刺桐", "alias": "刺桐属", "latin": "Erythrina crista-galli", "rarity": 2, "desc": "总状花序更密，花形似鸡冠", "img": "https://commons.wikimedia.org/w/index.php?search=Erythrina%20crista-galli%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 27, "no": "027", "name": "宫粉紫荆", "alias": "紫荆属", "latin": "Bauhinia variegata", "rarity": 2, "desc": "叶片顶端二裂似羊蹄；花粉紫", "img": "https://commons.wikimedia.org/w/index.php?search=Bauhinia%20variegata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 28, "no": "028", "name": "红花羊蹄甲", "alias": "羊蹄甲属", "latin": "Bauhinia blakeana", "rarity": 3, "desc": "叶顶二裂；花大而玫红，常不结果", "img": "https://commons.wikimedia.org/w/index.php?search=Bauhinia%20blakeana%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 29, "no": "029", "name": "盆架木", "alias": "盆架树属", "latin": "Alstonia scholaris", "rarity": 2, "desc": "轮生叶明显；秋季米黄色小花具浓香", "img": "https://commons.wikimedia.org/w/index.php?search=Alstonia%20scholaris%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 30, "no": "030", "name": "菜豆树", "alias": "菜豆树属", "latin": "Radermachera sinica", "rarity": 4, "desc": "奇数羽状复叶；蒴果细长", "img": "https://commons.wikimedia.org/w/index.php?search=Radermachera%20sinica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 31, "no": "031", "name": "白兰", "alias": "木兰属", "latin": "Magnolia × alba", "rarity": 2, "desc": "叶长椭圆，白花浓香", "img": "https://commons.wikimedia.org/w/index.php?search=Magnolia%20%C3%97%20alba%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 32, "no": "032", "name": "广玉兰", "alias": "木兰属", "latin": "Magnolia grandiflora", "rarity": 3, "desc": "叶厚大，背面锈色绒毛；花大白色", "img": "https://commons.wikimedia.org/w/index.php?search=Magnolia%20grandiflora%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 33, "no": "033", "name": "桂花", "alias": "木犀属", "latin": "Osmanthus fragrans", "rarity": 2, "desc": "叶对生革质；花小而极香", "img": "https://commons.wikimedia.org/w/index.php?search=Osmanthus%20fragrans%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 34, "no": "034", "name": "罗汉松", "alias": "罗汉松属", "latin": "Podocarpus macrophyllus", "rarity": 2, "desc": "叶条形柔软；种托肉质紫红", "img": "https://commons.wikimedia.org/w/index.php?search=Podocarpus%20macrophyllus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 35, "no": "035", "name": "南洋杉", "alias": "南洋杉属", "latin": "Araucaria cunninghamii", "rarity": 2, "desc": "主干通直；枝层轮生呈塔形", "img": "https://commons.wikimedia.org/w/index.php?search=Araucaria%20cunninghamii%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 36, "no": "036", "name": "大叶南洋杉", "alias": "南洋杉属", "latin": "Araucaria bidwillii", "rarity": 3, "desc": "叶较宽硬，树形庄重", "img": "https://commons.wikimedia.org/w/index.php?search=Araucaria%20bidwillii%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 37, "no": "037", "name": "落羽杉", "alias": "落羽杉属", "latin": "Taxodium distichum", "rarity": 2, "desc": "叶条形两列，秋冬变铜褐色", "img": "https://commons.wikimedia.org/w/index.php?search=Taxodium%20distichum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 38, "no": "038", "name": "水杉", "alias": "水杉属", "latin": "Metasequoia glyptostroboides", "rarity": 2, "desc": "叶对生，羽状柔软，秋色明显", "img": "https://commons.wikimedia.org/w/index.php?search=Metasequoia%20glyptostroboides%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 39, "no": "039", "name": "池杉", "alias": "落羽杉属", "latin": "Taxodium ascendens", "rarity": 2, "desc": "叶螺旋状伸展，树干基部膨大", "img": "https://commons.wikimedia.org/w/index.php?search=Taxodium%20ascendens%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 40, "no": "040", "name": "木麻黄", "alias": "木麻黄属", "latin": "Casuarina equisetifolia", "rarity": 4, "desc": "小枝细如针；真正叶退化成齿环", "img": "https://commons.wikimedia.org/w/index.php?search=Casuarina%20equisetifolia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 41, "no": "041", "name": "福建柏", "alias": "福建柏属", "latin": "Fokienia hodginsii", "rarity": 2, "desc": "鳞叶扁平，香气明显", "img": "https://commons.wikimedia.org/w/index.php?search=Fokienia%20hodginsii%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 42, "no": "042", "name": "竹柏", "alias": "竹柏属", "latin": "Podocarpus nagi", "rarity": 2, "desc": "叶对生，厚而具平行脉，似竹叶", "img": "https://commons.wikimedia.org/w/index.php?search=Podocarpus%20nagi%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 43, "no": "043", "name": "苏铁", "alias": "5-7月", "latin": "棕榈状铁树", "rarity": 2, "desc": "公园、单位门前、庭院", "img": "https://commons.wikimedia.org/w/index.php?search=%E6%A3%95%E6%A6%88%E7%8A%B6%E9%93%81%E6%A0%91%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 44, "no": "044", "name": "假槟榔", "alias": "假槟榔属", "latin": "Archontophoenix alexandrae", "rarity": 3, "desc": "单干挺直，羽状叶整齐下垂", "img": "https://commons.wikimedia.org/w/index.php?search=Archontophoenix%20alexandrae%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 45, "no": "045", "name": "王棕", "alias": "王棕属", "latin": "Roystonea regia", "rarity": 2, "desc": "树干灰白光滑、冠轴明显", "img": "https://commons.wikimedia.org/w/index.php?search=Roystonea%20regia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 46, "no": "046", "name": "蒲葵", "alias": "蒲葵属", "latin": "Livistona chinensis", "rarity": 2, "desc": "掌状大叶，下垂丝状裂片", "img": "https://commons.wikimedia.org/w/index.php?search=Livistona%20chinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 47, "no": "047", "name": "散尾葵", "alias": "散尾葵属", "latin": "Dypsis lutescens", "rarity": 2, "desc": "丛生多茎，羽状叶细密", "img": "https://commons.wikimedia.org/w/index.php?search=Dypsis%20lutescens%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 48, "no": "048", "name": "狐尾椰子", "alias": "狐尾椰子属", "latin": "Wodyetia bifurcata", "rarity": 3, "desc": "羽片蓬松如狐尾", "img": "https://commons.wikimedia.org/w/index.php?search=Wodyetia%20bifurcata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 49, "no": "049", "name": "加拿利海枣", "alias": "刺葵属", "latin": "Phoenix canariensis", "rarity": 2, "desc": "粗壮单干，叶基残痕明显", "img": "https://commons.wikimedia.org/w/index.php?search=Phoenix%20canariensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 50, "no": "050", "name": "旅人蕉", "alias": "旅人蕉属", "latin": "Ravenala madagascariensis", "rarity": 5, "desc": "叶两列扇形展开，非常醒目", "img": "https://commons.wikimedia.org/w/index.php?search=Ravenala%20madagascariensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 51, "no": "051", "name": "幌伞枫", "alias": "幌伞枫属", "latin": "Heteropanax fragrans", "rarity": 2, "desc": "叶簇生枝端如伞；树形轻盈", "img": "https://commons.wikimedia.org/w/index.php?search=Heteropanax%20fragrans%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 52, "no": "052", "name": "合欢", "alias": "合欢属", "latin": "Albizia julibrissin", "rarity": 3, "desc": "二回羽状复叶；粉色绒球花", "img": "https://commons.wikimedia.org/w/index.php?search=Albizia%20julibrissin%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 53, "no": "053", "name": "台湾相思", "alias": "相思树属", "latin": "Acacia confusa", "rarity": 2, "desc": "叶为镰形叶状柄，黄色球形小花", "img": "https://commons.wikimedia.org/w/index.php?search=Acacia%20confusa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 54, "no": "054", "name": "黄花槐", "alias": "决明属", "latin": "Senna surattensis", "rarity": 2, "desc": "偶数羽状复叶；黄花成串", "img": "https://commons.wikimedia.org/w/index.php?search=Senna%20surattensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 55, "no": "055", "name": "红千层", "alias": "红千层属", "latin": "Callistemon citrinus", "rarity": 2, "desc": "穗状花序似瓶刷，红色显眼", "img": "https://commons.wikimedia.org/w/index.php?search=Callistemon%20citrinus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 56, "no": "056", "name": "三角梅", "alias": "叶子花属", "latin": "Bougainvillea spectabilis", "rarity": 3, "desc": "彩色苞片显著，真正花小", "img": "https://commons.wikimedia.org/w/index.php?search=Bougainvillea%20spectabilis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 57, "no": "057", "name": "扶桑", "alias": "木槿属", "latin": "Hibiscus rosa-sinensis", "rarity": 2, "desc": "花大而喇叭状，柱头伸出", "img": "https://commons.wikimedia.org/w/index.php?search=Hibiscus%20rosa-sinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 58, "no": "058", "name": "黄槿", "alias": "木槿属", "latin": "Hibiscus tiliaceus", "rarity": 2, "desc": "心形叶；黄花中心暗紫，傍晚转橙", "img": "https://commons.wikimedia.org/w/index.php?search=Hibiscus%20tiliaceus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 59, "no": "059", "name": "夹竹桃", "alias": "夹竹桃属", "latin": "Nerium oleander", "rarity": 2, "desc": "叶3枚轮生；花粉红/白，乳汁多", "img": "https://commons.wikimedia.org/w/index.php?search=Nerium%20oleander%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 60, "no": "060", "name": "黄花夹竹桃", "alias": "黄花夹竹桃属", "latin": "Cascabela thevetia", "rarity": 4, "desc": "叶更窄，黄花漏斗状，下垂果实近球形", "img": "https://commons.wikimedia.org/w/index.php?search=Cascabela%20thevetia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 61, "no": "061", "name": "白千层", "alias": "白千层属", "latin": "Melaleuca leucadendra", "rarity": 2, "desc": "树皮层层剥落如纸；穗状白花", "img": "https://commons.wikimedia.org/w/index.php?search=Melaleuca%20leucadendra%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 62, "no": "062", "name": "海桐", "alias": "海桐花属", "latin": "Pittosporum tobira", "rarity": 2, "desc": "叶簇生枝端，果熟裂开露橙红种子", "img": "https://commons.wikimedia.org/w/index.php?search=Pittosporum%20tobira%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 63, "no": "063", "name": "红叶石楠", "alias": "石楠属", "latin": "Photinia × fraseri", "rarity": 2, "desc": "新叶鲜红，后转绿", "img": "https://commons.wikimedia.org/w/index.php?search=Photinia%20%C3%97%20fraseri%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 64, "no": "064", "name": "非洲茉莉", "alias": "灰莉属", "latin": "Fagraea ceilanica", "rarity": 3, "desc": "叶厚亮，株形紧凑，白花香", "img": "https://commons.wikimedia.org/w/index.php?search=Fagraea%20ceilanica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 65, "no": "065", "name": "栀子", "alias": "栀子属", "latin": "Gardenia jasminoides", "rarity": 2, "desc": "白花香，叶对生有光泽", "img": "https://commons.wikimedia.org/w/index.php?search=Gardenia%20jasminoides%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 66, "no": "066", "name": "山茶", "alias": "山茶属", "latin": "Camellia japonica", "rarity": 2, "desc": "厚叶，花大而蜡质感", "img": "https://commons.wikimedia.org/w/index.php?search=Camellia%20japonica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 67, "no": "067", "name": "杜鹃", "alias": "杜鹃属", "latin": "Rhododendron simsii", "rarity": 2, "desc": "枝细密，花漏斗状成簇", "img": "https://commons.wikimedia.org/w/index.php?search=Rhododendron%20simsii%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 68, "no": "068", "name": "茉莉", "alias": "素馨属", "latin": "Jasminum sambac", "rarity": 3, "desc": "白花重瓣或半重瓣，香气浓", "img": "https://commons.wikimedia.org/w/index.php?search=Jasminum%20sambac%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 69, "no": "069", "name": "含笑", "alias": "木兰属", "latin": "Magnolia figo", "rarity": 2, "desc": "花小似香蕉香，叶革质", "img": "https://commons.wikimedia.org/w/index.php?search=Magnolia%20figo%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 70, "no": "070", "name": "米兰", "alias": "米仔兰属", "latin": "Aglaia odorata", "rarity": 4, "desc": "黄色小花成簇，香味细甜", "img": "https://commons.wikimedia.org/w/index.php?search=Aglaia%20odorata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 71, "no": "071", "name": "月季", "alias": "蔷薇属", "latin": "Rosa chinensis", "rarity": 2, "desc": "枝有皮刺；花多色且反复开", "img": "https://commons.wikimedia.org/w/index.php?search=Rosa%20chinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 72, "no": "072", "name": "朱蕉", "alias": "朱蕉属", "latin": "Cordyline fruticosa", "rarity": 3, "desc": "叶色红紫，丛生", "img": "https://commons.wikimedia.org/w/index.php?search=Cordyline%20fruticosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 73, "no": "073", "name": "龙船花", "alias": "龙船花属", "latin": "Ixora chinensis", "rarity": 2, "desc": "小花密集成球状伞房，红橙最常见", "img": "https://commons.wikimedia.org/w/index.php?search=Ixora%20chinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 74, "no": "074", "name": "长春花", "alias": "长春花属", "latin": "Catharanthus roseus", "rarity": 2, "desc": "叶中脉浅色明显，花五裂", "img": "https://commons.wikimedia.org/w/index.php?search=Catharanthus%20roseus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 75, "no": "075", "name": "狗牙花", "alias": "狗牙花属", "latin": "Tabernaemontana divaricata", "rarity": 5, "desc": "白花旋转状如风车，叶亮绿", "img": "https://commons.wikimedia.org/w/index.php?search=Tabernaemontana%20divaricata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 76, "no": "076", "name": "龟背竹", "alias": "龟背竹属", "latin": "Monstera deliciosa", "rarity": 3, "desc": "叶片穿孔深裂如龟甲", "img": "https://commons.wikimedia.org/w/index.php?search=Monstera%20deliciosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 77, "no": "077", "name": "春羽", "alias": "蔓绿绒属", "latin": "Thaumatophyllum bipinnatifidum", "rarity": 2, "desc": "大叶深裂呈羽状", "img": "https://commons.wikimedia.org/w/index.php?search=Thaumatophyllum%20bipinnatifidum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 78, "no": "078", "name": "绿萝", "alias": "麒麟叶属", "latin": "Epipremnum aureum", "rarity": 2, "desc": "茎节生气根，叶心形", "img": "https://commons.wikimedia.org/w/index.php?search=Epipremnum%20aureum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 79, "no": "079", "name": "炮仗花", "alias": "炮仗藤属", "latin": "Pyrostegia venusta", "rarity": 2, "desc": "橙红筒花成串下垂", "img": "https://commons.wikimedia.org/w/index.php?search=Pyrostegia%20venusta%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 80, "no": "080", "name": "使君子", "alias": "使君子属", "latin": "Combretum indicum", "rarity": 4, "desc": "花初白后粉再红，香味明显", "img": "https://commons.wikimedia.org/w/index.php?search=Combretum%20indicum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 81, "no": "081", "name": "麦冬", "alias": "沿阶草属", "latin": "Ophiopogon japonicus", "rarity": 2, "desc": "叶细线形成丛，蓝黑色浆果", "img": "https://commons.wikimedia.org/w/index.php?search=Ophiopogon%20japonicus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 82, "no": "082", "name": "阔叶麦冬", "alias": "山麦冬属", "latin": "Liriope spicata", "rarity": 2, "desc": "叶较麦冬更宽，穗状花序更明显", "img": "https://commons.wikimedia.org/w/index.php?search=Liriope%20spicata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 83, "no": "083", "name": "美人蕉", "alias": "美人蕉属", "latin": "Canna indica", "rarity": 2, "desc": "叶大似芭蕉，花色鲜艳", "img": "https://commons.wikimedia.org/w/index.php?search=Canna%20indica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 84, "no": "084", "name": "再力花", "alias": "再力花属", "latin": "Thalia dealbata", "rarity": 3, "desc": "叶大直立，紫色小花举于顶端", "img": "https://commons.wikimedia.org/w/index.php?search=Thalia%20dealbata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 85, "no": "085", "name": "荷花", "alias": "莲属", "latin": "Nelumbo nucifera", "rarity": 2, "desc": "叶圆盾形出水，花大；莲蓬明显", "img": "https://commons.wikimedia.org/w/index.php?search=Nelumbo%20nucifera%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 86, "no": "086", "name": "睡莲", "alias": "睡莲属", "latin": "Nymphaea spp.", "rarity": 2, "desc": "叶浮水，花贴近或稍高于水面", "img": "https://commons.wikimedia.org/w/index.php?search=Nymphaea%20spp.%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 87, "no": "087", "name": "芦苇", "alias": "芦苇属", "latin": "Phragmites australis", "rarity": 2, "desc": "高大成片，圆锥花序羽毛状", "img": "https://commons.wikimedia.org/w/index.php?search=Phragmites%20australis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 88, "no": "088", "name": "水葱", "alias": "藨草属", "latin": "Schoenoplectus tabernaemontani", "rarity": 3, "desc": "圆柱形无叶茎丛生，顶端侧生小穗", "img": "https://commons.wikimedia.org/w/index.php?search=Schoenoplectus%20tabernaemontani%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 89, "no": "089", "name": "姑婆芋", "alias": "海芋属", "latin": "Alocasia odora", "rarity": 2, "desc": "叶大盾形，叶柄粗壮", "img": "https://commons.wikimedia.org/w/index.php?search=Alocasia%20odora%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 90, "no": "090", "name": "鹤望兰", "alias": "鹤望兰属", "latin": "Strelitzia reginae", "rarity": 4, "desc": "花形似飞鸟，叶似香蕉", "img": "https://commons.wikimedia.org/w/index.php?search=Strelitzia%20reginae%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 91, "no": "091", "name": "鬼针草", "alias": "鬼针草属", "latin": "Bidens pilosa", "rarity": 2, "desc": "头状花序小，果实具倒刺易粘衣", "img": "https://commons.wikimedia.org/w/index.php?search=Bidens%20pilosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 92, "no": "092", "name": "酢浆草", "alias": "酢浆草属", "latin": "Oxalis corniculata", "rarity": 3, "desc": "三小叶心形，黄小花", "img": "https://commons.wikimedia.org/w/index.php?search=Oxalis%20corniculata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 93, "no": "093", "name": "狗尾草", "alias": "狗尾草属", "latin": "Setaria viridis", "rarity": 2, "desc": "穗状花序如狗尾", "img": "https://commons.wikimedia.org/w/index.php?search=Setaria%20viridis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 94, "no": "094", "name": "马齿苋", "alias": "马齿苋属", "latin": "Portulaca oleracea", "rarity": 2, "desc": "茎肉质匍匐，叶匙形", "img": "https://commons.wikimedia.org/w/index.php?search=Portulaca%20oleracea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 95, "no": "095", "name": "车前", "alias": "车前属", "latin": "Plantago asiatica", "rarity": 2, "desc": "叶基生，平行弧脉明显，穗状花序", "img": "https://commons.wikimedia.org/w/index.php?search=Plantago%20asiatica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 96, "no": "096", "name": "鱼腥草", "alias": "蕺菜属", "latin": "Houttuynia cordata", "rarity": 3, "desc": "揉碎有鱼腥气，心形叶", "img": "https://commons.wikimedia.org/w/index.php?search=Houttuynia%20cordata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 97, "no": "097", "name": "一串红", "alias": "鼠尾草属", "latin": "Salvia splendens", "rarity": 2, "desc": "红色穗状花序醒目", "img": "https://commons.wikimedia.org/w/index.php?search=Salvia%20splendens%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 98, "no": "098", "name": "万寿菊", "alias": "万寿菊属", "latin": "Tagetes erecta", "rarity": 2, "desc": "头状花序大而橙黄", "img": "https://commons.wikimedia.org/w/index.php?search=Tagetes%20erecta%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 99, "no": "099", "name": "百日草", "alias": "百日菊属", "latin": "Zinnia elegans", "rarity": 2, "desc": "花色丰富，茎直立粗糙", "img": "https://commons.wikimedia.org/w/index.php?search=Zinnia%20elegans%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 100, "no": "100", "name": "太阳花", "alias": "马齿苋属", "latin": "Portulaca grandiflora", "rarity": 5, "desc": "肉质叶细针形，晴天开花", "img": "https://commons.wikimedia.org/w/index.php?search=Portulaca%20grandiflora%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 101, "no": "101", "name": "榕树", "alias": "榕属", "latin": "Ficus microcarpa", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ficus%20microcarpa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 102, "no": "102", "name": "大叶榕", "alias": "榕属", "latin": "Ficus virens", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ficus%20virens%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 103, "no": "103", "name": "印度橡皮树", "alias": "榕属", "latin": "Ficus elastica", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ficus%20elastica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 104, "no": "104", "name": "黄葛树", "alias": "榕属", "latin": "Ficus virens var. sublanceolata", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ficus%20virens%20var.%20sublanceolata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 105, "no": "105", "name": "榄仁树", "alias": "诃子属", "latin": "Terminalia catappa", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Terminalia%20catappa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 106, "no": "106", "name": "小叶榄仁", "alias": "榄仁属", "latin": "Terminalia mantaly", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Terminalia%20mantaly%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 107, "no": "107", "name": "大花紫薇", "alias": "紫薇属", "latin": "Lagerstroemia speciosa", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Lagerstroemia%20speciosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 108, "no": "108", "name": "紫薇", "alias": "紫薇属", "latin": "Lagerstroemia indica", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Lagerstroemia%20indica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 109, "no": "109", "name": "黄槐决明", "alias": "决明属", "latin": "Senna surattensis", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Senna%20surattensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 110, "no": "110", "name": "铁刀木", "alias": "决明属", "latin": "Senna siamea", "rarity": 4, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Senna%20siamea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 111, "no": "111", "name": "凤凰木", "alias": "凤凰木属", "latin": "Delonix regia", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Delonix%20regia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 112, "no": "112", "name": "腊肠树", "alias": "决明属", "latin": "Cassia fistula", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Cassia%20fistula%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 113, "no": "113", "name": "无忧树", "alias": "无忧树属", "latin": "Saraca dives", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Saraca%20dives%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 114, "no": "114", "name": "洋紫荆", "alias": "羊蹄甲属", "latin": "Bauhinia variegata", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Bauhinia%20variegata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 115, "no": "115", "name": "羊蹄甲", "alias": "羊蹄甲属", "latin": "Bauhinia purpurea", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Bauhinia%20purpurea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 116, "no": "116", "name": "火焰木", "alias": "火焰木属", "latin": "Spathodea campanulata", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Spathodea%20campanulata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 117, "no": "117", "name": "风铃木", "alias": "风铃木属", "latin": "Tabebuia rosea", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Tabebuia%20rosea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 118, "no": "118", "name": "银桦", "alias": "银桦属", "latin": "Grevillea robusta", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Grevillea%20robusta%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 119, "no": "119", "name": "大王椰子", "alias": "王棕属", "latin": "Roystonea regia", "rarity": 2, "desc": "重点看叶型（羽状/掌状）、是否单干、叶柄与果序；远看轮廓辨识度高。", "img": "https://commons.wikimedia.org/w/index.php?search=Roystonea%20regia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 120, "no": "120", "name": "皇后葵", "alias": "皇后葵属", "latin": "Syagrus romanzoffiana", "rarity": 4, "desc": "重点看叶型（羽状/掌状）、是否单干、叶柄与果序；远看轮廓辨识度高。", "img": "https://commons.wikimedia.org/w/index.php?search=Syagrus%20romanzoffiana%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 121, "no": "121", "name": "海枣", "alias": "刺葵属", "latin": "Phoenix dactylifera", "rarity": 2, "desc": "重点看叶型（羽状/掌状）、是否单干、叶柄与果序；远看轮廓辨识度高。", "img": "https://commons.wikimedia.org/w/index.php?search=Phoenix%20dactylifera%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 122, "no": "122", "name": "银海枣", "alias": "刺葵属", "latin": "Phoenix sylvestris", "rarity": 2, "desc": "重点看叶型（羽状/掌状）、是否单干、叶柄与果序；远看轮廓辨识度高。", "img": "https://commons.wikimedia.org/w/index.php?search=Phoenix%20sylvestris%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 123, "no": "123", "name": "鱼尾葵", "alias": "鱼尾葵属", "latin": "Caryota mitis", "rarity": 2, "desc": "重点看叶型（羽状/掌状）、是否单干、叶柄与果序；远看轮廓辨识度高。", "img": "https://commons.wikimedia.org/w/index.php?search=Caryota%20mitis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 124, "no": "124", "name": "董棕", "alias": "鱼尾葵属", "latin": "Caryota urens", "rarity": 3, "desc": "重点看叶型（羽状/掌状）、是否单干、叶柄与果序；远看轮廓辨识度高。", "img": "https://commons.wikimedia.org/w/index.php?search=Caryota%20urens%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 125, "no": "125", "name": "酒瓶椰子", "alias": "酒瓶椰子属", "latin": "Hyophorbe lagenicaulis", "rarity": 5, "desc": "重点看叶型（羽状/掌状）、是否单干、叶柄与果序；远看轮廓辨识度高。", "img": "https://commons.wikimedia.org/w/index.php?search=Hyophorbe%20lagenicaulis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 126, "no": "126", "name": "老人葵", "alias": "丝葵属", "latin": "Washingtonia filifera", "rarity": 2, "desc": "重点看叶型（羽状/掌状）、是否单干、叶柄与果序；远看轮廓辨识度高。", "img": "https://commons.wikimedia.org/w/index.php?search=Washingtonia%20filifera%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 127, "no": "127", "name": "鸡蛋花", "alias": "鸡蛋花属", "latin": "Plumeria rubra", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Plumeria%20rubra%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 128, "no": "128", "name": "黄花鸡蛋花", "alias": "鸡蛋花属", "latin": "Plumeria pudica", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Plumeria%20pudica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 129, "no": "129", "name": "黄蝉", "alias": "黄蝉属", "latin": "Allamanda schottii", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Allamanda%20schottii%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 130, "no": "130", "name": "软枝黄蝉", "alias": "黄蝉属", "latin": "Allamanda cathartica", "rarity": 4, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Allamanda%20cathartica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 131, "no": "131", "name": "络石", "alias": "络石属", "latin": "Trachelospermum jasminoides", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Trachelospermum%20jasminoides%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 132, "no": "132", "name": "云南黄馨", "alias": "素馨属", "latin": "Jasminum mesnyi", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Jasminum%20mesnyi%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 133, "no": "133", "name": "迎春", "alias": "素馨属", "latin": "Jasminum nudiflorum", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Jasminum%20nudiflorum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 134, "no": "134", "name": "木芙蓉", "alias": "木槿属", "latin": "Hibiscus mutabilis", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Hibiscus%20mutabilis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 135, "no": "135", "name": "木槿", "alias": "木槿属", "latin": "Hibiscus syriacus", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Hibiscus%20syriacus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 136, "no": "136", "name": "扶桑绵葵", "alias": "苘麻属", "latin": "Malvaviscus arboreus", "rarity": 3, "desc": "重点看叶型（羽状/掌状）、是否单干、叶柄与果序；远看轮廓辨识度高。", "img": "https://commons.wikimedia.org/w/index.php?search=Malvaviscus%20arboreus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 137, "no": "137", "name": "黄钟花", "alias": "凌霄属", "latin": "Tecoma stans", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Tecoma%20stans%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 138, "no": "138", "name": "硬骨凌霄", "alias": "凌霄属", "latin": "Campsis grandiflora", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Campsis%20grandiflora%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 139, "no": "139", "name": "蒜香藤", "alias": "蒜香藤属", "latin": "Mansoa alliacea", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Mansoa%20alliacea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 140, "no": "140", "name": "炮仗藤", "alias": "炮仗藤属", "latin": "Pyrostegia venusta", "rarity": 4, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Pyrostegia%20venusta%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 141, "no": "141", "name": "锦屏藤", "alias": "白粉藤属", "latin": "Cissus sicyoides", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Cissus%20sicyoides%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 142, "no": "142", "name": "地锦", "alias": "地锦属", "latin": "Parthenocissus tricuspidata", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Parthenocissus%20tricuspidata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 143, "no": "143", "name": "常春藤", "alias": "常春藤属", "latin": "Hedera nepalensis var. sinensis", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Hedera%20nepalensis%20var.%20sinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 144, "no": "144", "name": "鹅掌柴", "alias": "鹅掌柴属", "latin": "Heptapleurum arboricola", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Heptapleurum%20arboricola%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 145, "no": "145", "name": "鸭脚木", "alias": "鹅掌柴属", "latin": "Heptapleurum actinophyllum", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Heptapleurum%20actinophyllum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 146, "no": "146", "name": "八角金盘", "alias": "八角金盘属", "latin": "Fatsia japonica", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Fatsia%20japonica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 147, "no": "147", "name": "南天竹", "alias": "南天竹属", "latin": "Nandina domestica", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Nandina%20domestica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 148, "no": "148", "name": "十大功劳", "alias": "十大功劳属", "latin": "Mahonia fortunei", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Mahonia%20fortunei%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 149, "no": "149", "name": "洒金桃叶珊瑚", "alias": "桃叶珊瑚属", "latin": "Aucuba japonica 'Variegata'", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Aucuba%20japonica%20%27Variegata%27%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 150, "no": "150", "name": "桃叶珊瑚", "alias": "桃叶珊瑚属", "latin": "Aucuba japonica", "rarity": 5, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Aucuba%20japonica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 151, "no": "151", "name": "珊瑚树", "alias": "荚蒾属", "latin": "Viburnum odoratissimum", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Viburnum%20odoratissimum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 152, "no": "152", "name": "绣球", "alias": "绣球属", "latin": "Hydrangea macrophylla", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Hydrangea%20macrophylla%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 153, "no": "153", "name": "木绣球", "alias": "绣球属", "latin": "Hydrangea arborescens", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Hydrangea%20arborescens%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 154, "no": "154", "name": "金叶女贞", "alias": "女贞属", "latin": "Ligustrum × vicaryi", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Ligustrum%20%C3%97%20vicaryi%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 155, "no": "155", "name": "小叶女贞", "alias": "女贞属", "latin": "Ligustrum quihoui", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Ligustrum%20quihoui%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 156, "no": "156", "name": "大叶女贞", "alias": "女贞属", "latin": "Ligustrum lucidum", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ligustrum%20lucidum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 157, "no": "157", "name": "日本女贞", "alias": "女贞属", "latin": "Ligustrum japonicum", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Ligustrum%20japonicum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 158, "no": "158", "name": "福建茶", "alias": "厚壳树属", "latin": "Ehretia microphylla", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Ehretia%20microphylla%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 159, "no": "159", "name": "厚壳树", "alias": "厚壳树属", "latin": "Ehretia acuminata", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ehretia%20acuminata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 160, "no": "160", "name": "杜英", "alias": "杜英属", "latin": "Elaeocarpus sylvestris", "rarity": 4, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Elaeocarpus%20sylvestris%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 161, "no": "161", "name": "海南蒲桃", "alias": "蒲桃属", "latin": "Syzygium cumini", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Syzygium%20cumini%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 162, "no": "162", "name": "蒲桃", "alias": "蒲桃属", "latin": "Syzygium jambos", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Syzygium%20jambos%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 163, "no": "163", "name": "赤楠", "alias": "蒲桃属", "latin": "Syzygium buxifolium", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Syzygium%20buxifolium%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 164, "no": "164", "name": "桃金娘", "alias": "桃金娘属", "latin": "Rhodomyrtus tomentosa", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Rhodomyrtus%20tomentosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 165, "no": "165", "name": "红花檵木", "alias": "檵木属", "latin": "Loropetalum chinense var. rubrum", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Loropetalum%20chinense%20var.%20rubrum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 166, "no": "166", "name": "檵木", "alias": "檵木属", "latin": "Loropetalum chinense", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Loropetalum%20chinense%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 167, "no": "167", "name": "金边黄杨", "alias": "卫矛属", "latin": "Euonymus japonicus 'Aureomarginatus'", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Euonymus%20japonicus%20%27Aureomarginatus%27%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 168, "no": "168", "name": "大叶黄杨", "alias": "卫矛属", "latin": "Euonymus japonicus", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Euonymus%20japonicus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 169, "no": "169", "name": "金森女贞", "alias": "女贞属", "latin": "Ligustrum japonicum 'Howardii'", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Ligustrum%20japonicum%20%27Howardii%27%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 170, "no": "170", "name": "法国冬青", "alias": "荚蒾属", "latin": "Viburnum odoratissimum var. awabuki", "rarity": 4, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Viburnum%20odoratissimum%20var.%20awabuki%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 171, "no": "171", "name": "茶梅", "alias": "山茶属", "latin": "Camellia sasanqua", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Camellia%20sasanqua%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 172, "no": "172", "name": "油茶", "alias": "山茶属", "latin": "Camellia oleifera", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Camellia%20oleifera%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 173, "no": "173", "name": "茶树", "alias": "山茶属", "latin": "Camellia sinensis", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Camellia%20sinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 174, "no": "174", "name": "杜鹃红山茶", "alias": "山茶属", "latin": "Camellia azalea", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Camellia%20azalea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 175, "no": "175", "name": "金茶花", "alias": "山茶属", "latin": "Camellia nitidissima", "rarity": 5, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Camellia%20nitidissima%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 176, "no": "176", "name": "九里香", "alias": "九里香属", "latin": "Murraya paniculata", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Murraya%20paniculata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 177, "no": "177", "name": "黄皮", "alias": "黄皮属", "latin": "Clausena lansium", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Clausena%20lansium%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 178, "no": "178", "name": "柠檬", "alias": "柑橘属", "latin": "Citrus limon", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Citrus%20limon%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 179, "no": "179", "name": "金桔", "alias": "柑橘属", "latin": "Citrus japonica", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Citrus%20japonica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 180, "no": "180", "name": "佛手", "alias": "柑橘属", "latin": "Citrus medica var. sarcodactylis", "rarity": 4, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Citrus%20medica%20var.%20sarcodactylis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 181, "no": "181", "name": "柚", "alias": "柑橘属", "latin": "Citrus maxima", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Citrus%20maxima%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 182, "no": "182", "name": "柠檬桉", "alias": "桉属", "latin": "Corymbia citriodora", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Corymbia%20citriodora%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 183, "no": "183", "name": "大叶桉", "alias": "桉属", "latin": "Eucalyptus robusta", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Eucalyptus%20robusta%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 184, "no": "184", "name": "蓝桉", "alias": "桉属", "latin": "Eucalyptus globulus", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Eucalyptus%20globulus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 185, "no": "185", "name": "乌桕", "alias": "乌桕属", "latin": "Triadica sebifera", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Triadica%20sebifera%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 186, "no": "186", "name": "木油桐", "alias": "油桐属", "latin": "Vernicia fordii", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Vernicia%20fordii%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 187, "no": "187", "name": "算盘子", "alias": "算盘子属", "latin": "Glochidion puberum", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Glochidion%20puberum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 188, "no": "188", "name": "南洋楹", "alias": "南洋楹属", "latin": "Falcataria moluccana", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Falcataria%20moluccana%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 189, "no": "189", "name": "人面子", "alias": "人面子属", "latin": "Dracontomelon duperreanum", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Dracontomelon%20duperreanum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 190, "no": "190", "name": "芒萁", "alias": "芒萁属", "latin": "Dicranopteris pedata", "rarity": 4, "desc": "无明显花朵，重点看羽片分裂程度、叶柄和丛生形态。", "img": "https://commons.wikimedia.org/w/index.php?search=Dicranopteris%20pedata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 191, "no": "191", "name": "肾蕨", "alias": "肾蕨属", "latin": "Nephrolepis cordifolia", "rarity": 2, "desc": "无明显花朵，重点看羽片分裂程度、叶柄和丛生形态。", "img": "https://commons.wikimedia.org/w/index.php?search=Nephrolepis%20cordifolia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 192, "no": "192", "name": "波斯顿蕨", "alias": "肾蕨属", "latin": "Nephrolepis exaltata", "rarity": 3, "desc": "无明显花朵，重点看羽片分裂程度、叶柄和丛生形态。", "img": "https://commons.wikimedia.org/w/index.php?search=Nephrolepis%20exaltata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 193, "no": "193", "name": "铁线蕨", "alias": "铁线蕨属", "latin": "Adiantum capillus-veneris", "rarity": 2, "desc": "无明显花朵，重点看羽片分裂程度、叶柄和丛生形态。", "img": "https://commons.wikimedia.org/w/index.php?search=Adiantum%20capillus-veneris%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 194, "no": "194", "name": "桫椤", "alias": "桫椤属", "latin": "Alsophila spinulosa", "rarity": 2, "desc": "无明显花朵，重点看羽片分裂程度、叶柄和丛生形态。", "img": "https://commons.wikimedia.org/w/index.php?search=Alsophila%20spinulosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 195, "no": "195", "name": "凤尾蕨", "alias": "凤尾蕨属", "latin": "Pteris vittata", "rarity": 2, "desc": "无明显花朵，重点看羽片分裂程度、叶柄和丛生形态。", "img": "https://commons.wikimedia.org/w/index.php?search=Pteris%20vittata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 196, "no": "196", "name": "肾蕨球", "alias": "肾蕨属", "latin": "Nephrolepis cordifolia 'Duffii'", "rarity": 3, "desc": "无明显花朵，重点看羽片分裂程度、叶柄和丛生形态。", "img": "https://commons.wikimedia.org/w/index.php?search=Nephrolepis%20cordifolia%20%27Duffii%27%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 197, "no": "197", "name": "鸢尾", "alias": "鸢尾属", "latin": "Iris tectorum", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Iris%20tectorum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 198, "no": "198", "name": "德国鸢尾", "alias": "鸢尾属", "latin": "Iris germanica", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Iris%20germanica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 199, "no": "199", "name": "射干", "alias": "鸢尾属", "latin": "Iris domestica", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Iris%20domestica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 200, "no": "200", "name": "蜘蛛兰", "alias": "蜘蛛兰属", "latin": "Hymenocallis littoralis", "rarity": 5, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Hymenocallis%20littoralis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 201, "no": "201", "name": "文殊兰", "alias": "文殊兰属", "latin": "Crinum asiaticum", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Crinum%20asiaticum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 202, "no": "202", "name": "朱顶红", "alias": "朱顶红属", "latin": "Hippeastrum × hybridum", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Hippeastrum%20%C3%97%20hybridum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 203, "no": "203", "name": "彼岸花", "alias": "石蒜属", "latin": "Lycoris radiata", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Lycoris%20radiata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 204, "no": "204", "name": "韭兰", "alias": "葱兰属", "latin": "Zephyranthes grandiflora", "rarity": 3, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Zephyranthes%20grandiflora%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 205, "no": "205", "name": "葱兰", "alias": "葱兰属", "latin": "Zephyranthes candida", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Zephyranthes%20candida%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 206, "no": "206", "name": "萱草", "alias": "萱草属", "latin": "Hemerocallis fulva", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Hemerocallis%20fulva%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 207, "no": "207", "name": "玉簪", "alias": "玉簪属", "latin": "Hosta plantaginea", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Hosta%20plantaginea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 208, "no": "208", "name": "吊兰", "alias": "吊兰属", "latin": "Chlorophytum comosum", "rarity": 3, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Chlorophytum%20comosum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 209, "no": "209", "name": "沿阶草", "alias": "沿阶草属", "latin": "Ophiopogon japonicus", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Ophiopogon%20japonicus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 210, "no": "210", "name": "吉祥草", "alias": "吉祥草属", "latin": "Reineckea carnea", "rarity": 4, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Reineckea%20carnea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 211, "no": "211", "name": "龙舌兰", "alias": "龙舌兰属", "latin": "Agave americana", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Agave%20americana%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 212, "no": "212", "name": "金边龙舌兰", "alias": "龙舌兰属", "latin": "Agave angustifolia 'Marginata'", "rarity": 3, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Agave%20angustifolia%20%27Marginata%27%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 213, "no": "213", "name": "丝兰", "alias": "丝兰属", "latin": "Yucca gigantea", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Yucca%20gigantea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 214, "no": "214", "name": "凤尾兰", "alias": "丝兰属", "latin": "Yucca gloriosa", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Yucca%20gloriosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 215, "no": "215", "name": "朱顶红", "alias": "朱顶红属", "latin": "Hippeastrum × hybridum", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Hippeastrum%20%C3%97%20hybridum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 216, "no": "216", "name": "朱蕉红边", "alias": "朱蕉属", "latin": "Cordyline fruticosa", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Cordyline%20fruticosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 217, "no": "217", "name": "万年青", "alias": "万年青属", "latin": "Rohdea japonica", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Rohdea%20japonica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 218, "no": "218", "name": "广东万年青", "alias": "广东万年青属", "latin": "Aglaonema modestum", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Aglaonema%20modestum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 219, "no": "219", "name": "花叶万年青", "alias": "黛粉叶属", "latin": "Dieffenbachia seguine", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Dieffenbachia%20seguine%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 220, "no": "220", "name": "白掌", "alias": "白鹤芋属", "latin": "Spathiphyllum kochii", "rarity": 4, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Spathiphyllum%20kochii%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 221, "no": "221", "name": "红掌", "alias": "花烛属", "latin": "Anthurium andraeanum", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Anthurium%20andraeanum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 222, "no": "222", "name": "滴水观音", "alias": "海芋属", "latin": "Alocasia odora", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Alocasia%20odora%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 223, "no": "223", "name": "彩叶芋", "alias": "彩叶芋属", "latin": "Caladium bicolor", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Caladium%20bicolor%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 224, "no": "224", "name": "千年木", "alias": "龙血树属", "latin": "Dracaena fragrans", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Dracaena%20fragrans%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 225, "no": "225", "name": "酒瓶兰", "alias": "酒瓶兰属", "latin": "Beaucarnea recurvata", "rarity": 5, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Beaucarnea%20recurvata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 226, "no": "226", "name": "虎尾兰", "alias": "龙血树属", "latin": "Dracaena trifasciata", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Dracaena%20trifasciata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 227, "no": "227", "name": "芦荟", "alias": "芦荟属", "latin": "Aloe vera", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Aloe%20vera%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 228, "no": "228", "name": "不夜城芦荟", "alias": "芦荟属", "latin": "Aloe nobilis", "rarity": 3, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Aloe%20nobilis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 229, "no": "229", "name": "麒麟掌", "alias": "大戟属", "latin": "Euphorbia neriifolia", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Euphorbia%20neriifolia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 230, "no": "230", "name": "龙骨", "alias": "大戟属", "latin": "Euphorbia lactea", "rarity": 4, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Euphorbia%20lactea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 231, "no": "231", "name": "仙人掌", "alias": "仙人掌属", "latin": "Opuntia ficus-indica", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Opuntia%20ficus-indica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 232, "no": "232", "name": "量天尺", "alias": "量天尺属", "latin": "Selenicereus undatus", "rarity": 3, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Selenicereus%20undatus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 233, "no": "233", "name": "蟹爪兰", "alias": "蟹爪兰属", "latin": "Schlumbergera truncata", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Schlumbergera%20truncata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 234, "no": "234", "name": "昙花", "alias": "昙花属", "latin": "Epiphyllum oxypetalum", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Epiphyllum%20oxypetalum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 235, "no": "235", "name": "假连翘", "alias": "金露花属", "latin": "Duranta erecta", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Duranta%20erecta%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 236, "no": "236", "name": "马缨丹", "alias": "马缨丹属", "latin": "Lantana camara", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Lantana%20camara%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 237, "no": "237", "name": "美女樱", "alias": "马鞭草属", "latin": "Verbena × hybrida", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Verbena%20%C3%97%20hybrida%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 238, "no": "238", "name": "假马齿苋", "alias": "假马齿苋属", "latin": "Bacopa monnieri", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Bacopa%20monnieri%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 239, "no": "239", "name": "金鱼草", "alias": "金鱼草属", "latin": "Antirrhinum majus", "rarity": 2, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Antirrhinum%20majus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 240, "no": "240", "name": "毛地黄", "alias": "毛地黄属", "latin": "Digitalis purpurea", "rarity": 4, "desc": "重点看叶片排列、花序和地上部形态；近拍叶、花、果更利于区分。", "img": "https://commons.wikimedia.org/w/index.php?search=Digitalis%20purpurea%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 241, "no": "241", "name": "蓝雪花", "alias": "蓝雪花属", "latin": "Ceratostigma plumbaginoides", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Ceratostigma%20plumbaginoides%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 242, "no": "242", "name": "白花丹", "alias": "白花丹属", "latin": "Plumbago zeylanica", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Plumbago%20zeylanica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 243, "no": "243", "name": "绣线菊", "alias": "绣线菊属", "latin": "Spiraea cantoniensis", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Spiraea%20cantoniensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 244, "no": "244", "name": "贴梗海棠", "alias": "木瓜属", "latin": "Chaenomeles speciosa", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Chaenomeles%20speciosa%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 245, "no": "245", "name": "西府海棠", "alias": "苹果属", "latin": "Malus micromalus", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Malus%20micromalus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 246, "no": "246", "name": "垂丝海棠", "alias": "苹果属", "latin": "Malus halliana", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Malus%20halliana%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 247, "no": "247", "name": "红叶李", "alias": "李属", "latin": "Prunus cerasifera", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Prunus%20cerasifera%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 248, "no": "248", "name": "碧桃", "alias": "李属", "latin": "Prunus persica f. duplex", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Prunus%20persica%20f.%20duplex%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 249, "no": "249", "name": "桃", "alias": "李属", "latin": "Prunus persica", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Prunus%20persica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 250, "no": "250", "name": "梅", "alias": "李属", "latin": "Prunus mume", "rarity": 5, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Prunus%20mume%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 251, "no": "251", "name": "李", "alias": "李属", "latin": "Prunus salicina", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Prunus%20salicina%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 252, "no": "252", "name": "梨", "alias": "梨属", "latin": "Pyrus pyrifolia", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Pyrus%20pyrifolia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 253, "no": "253", "name": "樱花", "alias": "李属", "latin": "Prunus serrulata", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Prunus%20serrulata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 254, "no": "254", "name": "樱桃", "alias": "樱属", "latin": "Cerasus pseudocerasus", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Cerasus%20pseudocerasus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 255, "no": "255", "name": "枫香", "alias": "枫香属", "latin": "Liquidambar formosana", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Liquidambar%20formosana%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 256, "no": "256", "name": "无患子", "alias": "无患子属", "latin": "Sapindus mukorossi", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Sapindus%20mukorossi%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 257, "no": "257", "name": "荔枝椿", "alias": "臭椿属", "latin": "Ailanthus altissima", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ailanthus%20altissima%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 258, "no": "258", "name": "苦楝", "alias": "楝属", "latin": "Melia azedarach", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Melia%20azedarach%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 259, "no": "259", "name": "香椿", "alias": "香椿属", "latin": "Toona sinensis", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Toona%20sinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 260, "no": "260", "name": "红椿", "alias": "香椿属", "latin": "Toona ciliata", "rarity": 4, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Toona%20ciliata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 261, "no": "261", "name": "杜仲", "alias": "杜仲属", "latin": "Eucommia ulmoides", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Eucommia%20ulmoides%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 262, "no": "262", "name": "构树", "alias": "构属", "latin": "Broussonetia papyrifera", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Broussonetia%20papyrifera%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 263, "no": "263", "name": "桑树", "alias": "桑属", "latin": "Morus alba", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Morus%20alba%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 264, "no": "264", "name": "柘树", "alias": "柘属", "latin": "Cudrania tricuspidata", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Cudrania%20tricuspidata%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 265, "no": "265", "name": "榉树", "alias": "榉属", "latin": "Zelkova schneideriana", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Zelkova%20schneideriana%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 266, "no": "266", "name": "榆树", "alias": "榆属", "latin": "Ulmus pumila", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ulmus%20pumila%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 267, "no": "267", "name": "山乌桕", "alias": "乌桕属", "latin": "Sapium discolor", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Sapium%20discolor%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 268, "no": "268", "name": "盐肤木", "alias": "盐肤木属", "latin": "Rhus chinensis", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Rhus%20chinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 269, "no": "269", "name": "清香木", "alias": "黄连木属", "latin": "Pistacia weinmannifolia", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Pistacia%20weinmannifolia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 270, "no": "270", "name": "黄连木", "alias": "黄连木属", "latin": "Pistacia chinensis", "rarity": 4, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Pistacia%20chinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 271, "no": "271", "name": "枸骨", "alias": "冬青属", "latin": "Ilex cornuta", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Ilex%20cornuta%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 272, "no": "272", "name": "大叶冬青", "alias": "冬青属", "latin": "Ilex latifolia", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ilex%20latifolia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 273, "no": "273", "name": "冬青", "alias": "冬青属", "latin": "Ilex chinensis", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ilex%20chinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 274, "no": "274", "name": "铁冬青", "alias": "冬青属", "latin": "Ilex rotunda", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Ilex%20rotunda%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 275, "no": "275", "name": "深山含笑", "alias": "含笑属", "latin": "Michelia maudiae", "rarity": 5, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Michelia%20maudiae%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 276, "no": "276", "name": "乐昌含笑", "alias": "含笑属", "latin": "Michelia chapensis", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Michelia%20chapensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 277, "no": "277", "name": "二乔玉兰", "alias": "木兰属", "latin": "Magnolia × soulangeana", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Magnolia%20%C3%97%20soulangeana%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 278, "no": "278", "name": "紫玉兰", "alias": "木兰属", "latin": "Magnolia liliiflora", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Magnolia%20liliiflora%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 279, "no": "279", "name": "鹅掌楸", "alias": "鹅掌楸属", "latin": "Liriodendron chinense", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Liriodendron%20chinense%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 280, "no": "280", "name": "木荷", "alias": "木荷属", "latin": "Schima superba", "rarity": 4, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Schima%20superba%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 281, "no": "281", "name": "石楠", "alias": "石楠属", "latin": "Photinia serratifolia", "rarity": 2, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Photinia%20serratifolia%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 282, "no": "282", "name": "火棘", "alias": "火棘属", "latin": "Pyracantha fortuneana", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Pyracantha%20fortuneana%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 283, "no": "283", "name": "石榴", "alias": "石榴属", "latin": "Punica granatum", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Punica%20granatum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 284, "no": "284", "name": "海棠果", "alias": "苹果属", "latin": "Malus asiatica", "rarity": 3, "desc": "重点看树冠、叶片、树皮与花果组合特征；远观轮廓和近看叶果都很关键。", "img": "https://commons.wikimedia.org/w/index.php?search=Malus%20asiatica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 285, "no": "285", "name": "金丝桃", "alias": "金丝桃属", "latin": "Hypericum monogynum", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Hypericum%20monogynum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 286, "no": "286", "name": "琴叶珊瑚", "alias": "麻疯树属", "latin": "Jatropha integerrima", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Jatropha%20integerrima%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 287, "no": "287", "name": "一品红", "alias": "大戟属", "latin": "Euphorbia pulcherrima", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Euphorbia%20pulcherrima%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 288, "no": "288", "name": "变叶木", "alias": "巴豆属", "latin": "Codiaeum variegatum", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Codiaeum%20variegatum%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 289, "no": "289", "name": "木薯", "alias": "木薯属", "latin": "Manihot esculenta", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Manihot%20esculenta%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 290, "no": "290", "name": "金边瑞香", "alias": "瑞香属", "latin": "Daphne odora 'Marginata'", "rarity": 4, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Daphne%20odora%20%27Marginata%27%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 291, "no": "291", "name": "瑞香", "alias": "瑞香属", "latin": "Daphne odora", "rarity": 2, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Daphne%20odora%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 292, "no": "292", "name": "结香", "alias": "结香属", "latin": "Edgeworthia chrysantha", "rarity": 3, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Edgeworthia%20chrysantha%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 293, "no": "293", "name": "白花油麻藤", "alias": "黎豆属", "latin": "Mucuna birdwoodiana", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Mucuna%20birdwoodiana%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 294, "no": "294", "name": "紫藤", "alias": "紫藤属", "latin": "Wisteria sinensis", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Wisteria%20sinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 295, "no": "295", "name": "金银花", "alias": "忍冬属", "latin": "Lonicera japonica", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Lonicera%20japonica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 296, "no": "296", "name": "珊瑚藤", "alias": "珊瑚藤属", "latin": "Antigonon leptopus", "rarity": 3, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Antigonon%20leptopus%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 297, "no": "297", "name": "使君子藤", "alias": "使君子属", "latin": "Quisqualis indica", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Quisqualis%20indica%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 298, "no": "298", "name": "紫藤萝", "alias": "紫藤属", "latin": "Wisteria sinensis", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Wisteria%20sinensis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 299, "no": "299", "name": "牵牛", "alias": "番薯属", "latin": "Ipomoea nil", "rarity": 2, "desc": "重点看攀援方式、叶形和花序；识别时最好同时拍叶、花、果。", "img": "https://commons.wikimedia.org/w/index.php?search=Ipomoea%20nil%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}, {"id": 300, "no": "300", "name": "炮仗草", "alias": "假连翘属", "latin": "Russelia equisetiformis", "rarity": 5, "desc": "重点看株形、叶片质地、花色花型和枝条；常作绿篱或花灌木。", "img": "https://commons.wikimedia.org/w/index.php?search=Russelia%20equisetiformis%20whole%20plant%20tree%20habit&title=Special:MediaSearch&type=image"}];
+let collected=[];
+let currentRarity="全部";
+let pendingPlantId=null;
+
+function plantImage(p){
+  const safeName = (p.name || "").replace(/\s+/g,'').replace(/[\\/:*?"<>|]/g,'');
+  return `images/${safeName}.jpg`;
+}
+function imageTag(p, extraStyle=""){
+  const fallback = p.img || "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80";
+  const fallbackEscaped = fallback.replace(/'/g, "\\'");
+  return `<img src="${plantImage(p)}" alt="${p.name}" style="${extraStyle}" onerror="this.onerror=null;this.src='${fallbackEscaped}'">`;
+}
+
+function todayText(){
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return `${y}.${m}.${day}`;
+}
+function nowText(){
+  const d=new Date();
+  const hh=String(d.getHours()).padStart(2,"0");
+  const mm=String(d.getMinutes()).padStart(2,"0");
+  return `${todayText()} ${hh}:${mm}`;
+}
+function stars(n){ return "★".repeat(n)+"☆".repeat(5-n); }
+
+function saveData(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(collected));
+}
+function loadData(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    collected=raw ? JSON.parse(raw) : [{plantId:plants[0]?.id||1, checkedAt:todayText(), datetime:nowText(), note:""}];
+  }catch{
+    collected=[{plantId:plants[0]?.id||1, checkedAt:todayText(), datetime:nowText(), note:""}];
+  }
+}
+function uniquePlantIds(){
+  return [...new Set(collected.map(v=>v.plantId))];
+}
+function isCollected(id){
+  return collected.some(v=>v.plantId===id);
+}
+function getLatestRecord(id){
+  return [...collected].reverse().find(v=>v.plantId===id);
+}
+
+function updateStats(){
+  const total=plants.length;
+  const unique=uniquePlantIds().length;
+  const miss=total-unique;
+  const percent=total ? Math.round((unique/total)*100) : 0;
+  document.getElementById("statCollected").textContent=unique;
+  document.getElementById("statMissing").textContent=miss;
+  document.getElementById("statPercent").textContent=percent+"%";
+  document.getElementById("progressBar").style.width=percent+"%";
+  document.getElementById("myCollected").textContent=unique;
+  document.getElementById("myPercent").textContent=percent+"%";
+}
+
+function showPage(page){
+  ["home","recognize","album","my"].forEach(p=>{
+    const el=document.getElementById("page-"+p);
+    if(el) el.classList.toggle("hidden", p!==page);
+  });
+  document.querySelectorAll(".tab").forEach(el=>{
+    el.classList.toggle("active", el.dataset.page===page);
+  });
+  if(page==="home") renderHome();
+  if(page==="album") renderAlbum();
+  if(page==="my") renderMy();
+  window.scrollTo(0,0);
+}
+
+function artDecor(){
+  return `<div class="masking-tape"></div><div class="wc wc1"></div><div class="wc wc2"></div><div class="wc wc3"></div><div class="wc wc4"></div>`;
+}
+function sticker(){
+  return `<div class="leaf-sticker"><span></span></div>`;
+}
+function posterSticker(){
+  return `<div class="poster-sticker"><span></span></div>`;
+}
+
+function recognize(){
+  const plant=plants[Math.floor(Math.random()*plants.length)];
+  document.getElementById("recognizeResult").innerHTML=`
+    <div class="card">
+      <div class="front-art" style="height:220px;">
+        ${artDecor()}
+        ${imageTag(plant,"height:192px;")}
+        <div class="stamp-no">NO.${plant.no}</div>
+        <div class="stamp-stars">${stars(plant.rarity||1)}</div>
+        ${sticker()}
+      </div>
+      <div style="margin-top:14px;font-size:28px;color:#6d624f;">${plant.name}</div>
+      <div style="margin-top:6px;color:#8f8777;font-size:17px;">${plant.alias||""} · ${plant.latin||""}</div>
+      <div class="chip active" style="display:inline-block;margin-top:10px;">匹配度 ${90+Math.floor(Math.random()*9)}%</div>
+      <div style="margin-top:12px;color:#6f6b61;font-size:18px;line-height:1.8;">${plant.desc||""}</div>
+      <div class="row" style="margin-top:14px;">
+        <button class="btn small" onclick="startCollect(${plant.id})">加入手记</button>
+        <button class="btn ghost small" onclick="openPoster(${plant.id})">分享海报</button>
+      </div>
+    </div>`;
+}
+
+function startCollect(id){
+  pendingPlantId=id;
+  document.getElementById("noteInput").value="";
+  document.getElementById("noteSheet").classList.add("show");
+}
+function closeNoteSheet(e){
+  if(!e || e.target.id==="noteSheet"){
+    document.getElementById("noteSheet").classList.remove("show");
+    pendingPlantId=null;
+  }
+}
+function savePendingPlant(){
+  if(!pendingPlantId) return;
+  const note=document.getElementById("noteInput").value.trim();
+  collected.push({
+    plantId:pendingPlantId,
+    checkedAt:todayText(),
+    datetime:nowText(),
+    note
+  });
+  saveData();
+  pendingPlantId=null;
+  document.getElementById("noteSheet").classList.remove("show");
+  updateStats();
+  renderHome();
+  renderAlbum();
+  renderMy();
+  alert("已记进植间手记");
+}
+
+function stampFront(p){
+  return `
+    <div class="front-art">
+      ${artDecor()}
+      <div class="stamp-no">NO.${p.no}</div>
+      <div class="stamp-stars">${stars(p.rarity||1)}</div>
+      ${imageTag(p)}
+      ${sticker()}
+    </div>
+    <div class="stamp-name">${p.name}</div>
+    <div class="stamp-sub">把遇见的植物都记下来</div>
+    <div class="seal">已收录</div>
+  `;
+}
+
+function renderHome(){
+  updateStats();
+  const list=document.getElementById("timelineList");
+  if(!collected.length){
+    list.innerHTML=`<div class="empty-box">你还没有记录植物，先去识别一株吧。</div>`;
+    return;
+  }
+  const latest=[...collected].reverse().slice(0,3);
+  list.innerHTML=latest.map(item=>{
+    const p=plants.find(x=>x.id===item.plantId);
+    if(!p) return "";
+    return `
+      <div class="card timeline-item">
+        <div class="stamp" onclick="openDetail(${p.id})">
+          <div>${stampFront(p)}</div>
+        </div>
+        <div class="timeline-meta">
+          <span>${item.datetime||item.checkedAt}</span>
+          <span>${stars(p.rarity||1)}</span>
+        </div>
+        ${item.note ? `<div class="timeline-note">✍️ ${item.note}</div>` : ``}
+      </div>
+    `;
+  }).join("");
+}
+
+function renderRarityChips(){
+  const levels=["全部","2星","3星","4星","5星"];
+  document.getElementById("rarityChips").innerHTML=levels.map(level=>`
+    <button class="chip ${currentRarity===level?'active':''}" onclick="setRarity('${level}')">${level}</button>
+  `).join("");
+}
+function setRarity(level){
+  currentRarity=level;
+  renderRarityChips();
+  renderAlbum();
+}
+
+function renderAlbum(){
+  renderRarityChips();
+  const keyword=(document.getElementById("searchInput")?.value||"").trim().toLowerCase();
+  const ids=uniquePlantIds();
+  const filtered=plants.filter(p=>{
+    if(!ids.includes(p.id)) return false;
+    const source=[p.name,p.alias||"",p.latin||""].join("|").toLowerCase();
+    const hitKeyword=!keyword || source.includes(keyword);
+    const hitRarity=currentRarity==="全部" || `${p.rarity}星`===currentRarity;
+    return hitKeyword && hitRarity;
+  });
+  const wrap=document.getElementById("albumGrid");
+  if(!filtered.length){
+    wrap.innerHTML=`<div class="empty-box" style="grid-column:1/3;">你还没有已记录的植物，先去识别一株吧。</div>`;
+    return;
+  }
+  wrap.innerHTML=filtered.map(p=>`
+    <div class="stamp" onclick="openDetail(${p.id})">
+      <div>${stampFront(p)}</div>
+    </div>
+  `).join("");
+}
+
+function renderMy(){
+  updateStats();
+  const box=document.getElementById("collectionList");
+  if(!collected.length){
+    box.innerHTML=`<div class="muted">还没有记录</div>`;
+    return;
+  }
+  box.innerHTML=[...collected].reverse().slice(0,8).map(v=>{
+    const p=plants.find(x=>x.id===v.plantId);
+    if(!p) return "";
+    return `
+      <div class="collection-item">
+        <div>
+          <div style="font-size:20px;color:#6c6557;">${p.name}</div>
+          <div class="muted" style="margin-top:4px;">记于 ${v.datetime||v.checkedAt}</div>
+        </div>
+        <button class="btn ghost small" style="width:auto;padding:8px 12px;" onclick="openPoster(${p.id})">分享</button>
+      </div>
+    `;
+  }).join("");
+}
+
+function openDetail(id){
+  const p=plants.find(v=>v.id===id);
+  const latest=getLatestRecord(id);
+  if(!p) return;
+  document.getElementById("detailContent").innerHTML=`
+    <div class="detail-image">
+      ${artDecor()}
+      ${imageTag(p)}
+      <div class="stamp-no">NO.${p.no}</div>
+      <div class="stamp-stars">${stars(p.rarity||1)}</div>
+      ${sticker()}
+    </div>
+    <div class="detail-title">${p.name}</div>
+    <div class="detail-sub">${p.alias||""} · ${p.latin||""}</div>
+    <div class="detail-block">
+      <div class="detail-meta">
+        编号：NO.${p.no}<br>
+        学名：${p.latin||"—"}<br>
+        稀有度：${stars(p.rarity||1)}<br>
+        最近记录：${latest ? (latest.datetime||latest.checkedAt) : "未记录"}<br>
+        最近备注：${latest && latest.note ? latest.note : "这一次还没有写备注"}<br>
+        植物说明：${p.desc||""}
+      </div>
+      <div class="row" style="margin-top:14px;">
+        <button class="btn small" onclick="openPoster(${p.id})">分享卡片</button>
+        <button class="btn ghost small" onclick="removePlant(${p.id});closeDetail()">移出手记</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("detailOverlay").classList.add("show");
+}
+function closeDetail(e){
+  if(!e || e.target.id==="detailOverlay"){
+    document.getElementById("detailOverlay").classList.remove("show");
+  }
+}
+
+function openPoster(id){
+  const p=plants.find(v=>v.id===id);
+  const latest=getLatestRecord(id);
+  if(!p) return;
+  const safeName=String(p.name||"").replace(/'/g,"\\'");
+  const rarity=stars(p.rarity||1);
+  const note=(latest&&latest.note)?latest.note:"把遇见的植物都记下来。";
+  document.getElementById("posterArea").innerHTML=`
+    <div class="poster">
+      <div class="poster-card">
+        <div class="poster-wc p1"></div>
+        <div class="poster-wc p2"></div>
+        ${posterSticker()}
+        <div style="font-size:12px;letter-spacing:.2em;color:#7ca583;">LIVING JOURNAL</div>
+        <div style="margin-top:8px;font-size:30px;color:#6c6557;">植间手记</div>
+        ${imageTag(p)}
+        <div style="margin-top:12px;font-size:24px;color:#6d624f;">${p.name}</div>
+        <div style="margin-top:6px;color:#8f8777;font-size:17px;">${p.alias||""} · ${rarity}</div>
+        <div style="margin-top:12px;background:#faf8f4;border-radius:16px;padding:12px 14px;white-space:pre-line;font-size:18px;line-height:1.75;color:#6b665b;">${note}
+
+我已收集 ${uniquePlantIds().length}/${plants.length} 种植物 🌿
+最近遇见：${p.name}
+时间：${latest ? (latest.datetime||latest.checkedAt) : todayText()}
+来自：植间手记</div>
+        <button class="btn" style="margin-top:14px;" onclick="copyPosterText('${safeName}','${rarity}')">复制分享文案</button>
+      </div>
+    </div>
+  `;
+  showPage('my');
+  closeDetail();
+}
+
+function openPosterFromLatest(){
+  const latest=collected[collected.length-1];
+  if(!latest){
+    alert("你还没有记下植物");
+    return;
+  }
+  openPoster(latest.plantId);
+}
+
+function copyPosterText(name, rarity){
+  const text=`把遇见的植物都记下来。\n\n我已收集 ${uniquePlantIds().length}/${plants.length} 种植物 🌿\n最近遇见：${name}\n稀有度：${rarity}\n来自：植间手记`;
+  navigator.clipboard?.writeText(text).then(()=>alert("分享文案已复制")).catch(()=>alert(text));
+}
+
+function removePlant(id){
+  collected=collected.filter(v=>v.plantId!==id);
+  saveData();
+  updateStats();
+  renderHome();
+  renderAlbum();
+  renderMy();
+  alert("已从植间手记移除");
+}
+
+function resetData(){
+  if(!confirm("确定清空本地记录吗？")) return;
+  collected=[];
+  saveData();
+  updateStats();
+  document.getElementById("recognizeResult").innerHTML="";
+  document.getElementById("posterArea").innerHTML="";
+  renderHome();
+  renderAlbum();
+  renderMy();
+}
+
+loadData();
+updateStats();
+renderHome();
+renderRarityChips();
+renderAlbum();
+renderMy();
+</script>
+</body>
+</html>
