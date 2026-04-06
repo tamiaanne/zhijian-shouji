@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>植间手记 · 生活记录版</title>
+<title>植间手记</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap');
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -123,7 +123,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;back
     <div class="hero-wash"></div>
     <div class="eyebrow">LIVING BOTANICAL JOURNAL</div>
     <div class="title"><span class="hand-accent">植间手记</span></div>
-    <div class="sub">把每一次遇见，写成可回看的植物记录。</div>
+    <div class="sub">把遇见的植物都记下来。</div>
     <div class="bar-wrap"><div class="bar"><div class="bar-inner" id="progressBar"></div></div></div>
     <div class="stats">
       <div class="stat"><div class="n" id="statCollected">0</div><div class="l">已收集</div></div>
@@ -137,13 +137,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;back
       <button class="btn" onclick="showPage('recognize')">📷 去识别</button>
       <button class="btn ghost" onclick="showPage('album')">📒 打开手记</button>
     </div>
-    <div class="card">
-      <div style="font-size:16px;color:#2f3b37;font-weight:700;">已改成自动匹配图片版</div>
-      <div class="muted" style="margin-top:8px;line-height:1.8;">
-        现在只要把植物图片上传到仓库里的 <code>images</code> 文件夹，并按植物编号命名，例如 <code>香樟.jpg</code>、<code>秋枫.jpg</code>、<code>榕树.jpg</code>，页面就会自动匹配。<br>
-        没有对应图片时，会自动显示默认图，不会空白。
-      </div>
-    </div>
+    
 
     <div class="section-title"><span class="hand-accent">最近记录</span> <span class="muted">像日记一样回看</span></div>
     <div id="timelineList"></div>
@@ -155,7 +149,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;back
     <div class="hero-wash"></div>
     <div class="eyebrow">RECOGNIZE</div>
     <div class="title"><span class="hand-accent">植间手记</span></div>
-    <div class="sub">识别后可以顺手写一句今天的备注。</div>
   </div>
   <div class="wrap">
     <div class="card">
@@ -171,7 +164,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;back
     <div class="hero-wash"></div>
     <div class="eyebrow">NOTEBOOK</div>
     <div class="title"><span class="hand-accent">手记</span></div>
-    <div class="sub">这里收纳你记录过的植物。点卡片查看详情。</div>
+    <div class="sub">这里收纳你记录过的植物。</div>
   </div>
   <div class="wrap">
     <div class="search-box"><span>🔍</span><input id="searchInput" placeholder="搜索已收集植物名、别名、学名" oninput="renderAlbum()" /></div>
@@ -185,7 +178,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;back
     <div class="hero-wash"></div>
     <div class="eyebrow">MY JOURNAL</div>
     <div class="title"><span class="hand-accent">我的</span></div>
-    <div class="sub">把每一次遇见，写成可回看的植物记录。</div>
+    <div class="sub">把遇见的植物都记下来。</div>
   </div>
   <div class="wrap">
     <div class="card">
@@ -221,7 +214,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;back
 <div id="noteSheet" class="sheet-overlay" onclick="closeNoteSheet(event)">
   <div class="sheet" onclick="event.stopPropagation()">
     <div class="detail-handle"></div>
-    <div style="font-size:26px;color:#6a5f50;">写一句今天的备注</div>
     <div class="label" style="margin-top:10px;">今天在哪里遇见它，或者想记下什么？</div>
     <textarea id="noteInput" placeholder="例如：小区门口看到它开花了。"></textarea>
     <div class="row" style="margin-top:14px;">
