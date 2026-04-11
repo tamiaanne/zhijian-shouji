@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>植间手记</title>
 <style>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap');
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
@@ -195,7 +196,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;back
         <div class="card" style="margin-top:0;padding:14px;text-align:center;"><div style="font-size:22px;color:#6f7960;" id="myCollected">0</div><div class="muted">已收录</div></div>
         <div class="card" style="margin-top:0;padding:14px;text-align:center;"><div style="font-size:22px;color:#6f7960;" id="myPercent">0%</div><div class="muted">完成度</div></div>
       </div>
-      <button class="btn" onclick="openPosterFromLatest()">一键生成分享海报</button>
+     <button class="btn" onclick="openPosterFromLatest(true)">一键生成分享海报</button>
       <button class="btn ghost" style="margin-top:10px;" onclick="resetData()">清空本地记录</button>
     </div>
     <div class="card"><div style="font-size:16px;color:#2f3b37;font-weight:700;">最近记录</div><div id="collectionList" class="collection-list"></div></div>
@@ -666,7 +667,7 @@ function closeDetail(e){
   }
 }
 
-function openPoster(id){
+function openPoster(id, autoExport=false){
   const p=plants.find(v=>v.id===id);
   const latest=getLatestRecord(id);
   if(!p) return;
@@ -675,7 +676,7 @@ function openPoster(id){
   const note=(latest&&latest.note)?latest.note:"把遇见的植物都记下来。";
   document.getElementById("posterArea").innerHTML=`
     <div class="poster">
-      <div class="poster-card">
+      <div class="poster-card" id="posterCardExport">
         <div class="poster-wc p1"></div>
         <div class="poster-wc p2"></div>
         ${posterSticker()}
@@ -690,21 +691,28 @@ function openPoster(id){
 最近遇见：${p.name}
 时间：${latest ? (latest.datetime||latest.checkedAt) : todayText()}
 来自：植间手记</div>
-        <button class="btn" style="margin-top:14px;" onclick="copyPosterText('${safeName}','${rarity}')">复制分享文案</button>
+        <div class="row" style="margin-top:14px;">
+          <button class="btn" id="exportPosterBtn" onclick="exportPosterAsPng('${safeName}')">导出 PNG 图片</button>
+          <button class="btn ghost" onclick="copyPosterText('${safeName}','${rarity}')">复制分享文案</button>
+        </div>
       </div>
     </div>
   `;
   showPage('my');
   closeDetail();
+
+  if(autoExport){
+    setTimeout(()=>exportPosterAsPng(safeName), 180);
+  }
 }
 
-function openPosterFromLatest(){
+function openPosterFromLatest(autoExport=false){
   const latest=collected[collected.length-1];
   if(!latest){
     alert("你还没有记下植物");
     return;
   }
-  openPoster(latest.plantId);
+  openPoster(latest.plantId, autoExport);
 }
 
 function copyPosterText(name, rarity){
@@ -720,6 +728,55 @@ function removePlant(id){
   renderAlbum();
   renderMy();
   alert("已从植间手记移除");
+}
+  async function exportPosterAsPng(name){
+  const poster=document.getElementById("posterCardExport");
+  const btn=document.getElementById("exportPosterBtn");
+  if(!poster){
+    alert("请先生成分享海报");
+    return;
+  }
+  if(typeof html2canvas!=="function"){
+    alert("请刷新页面后重试");
+    return;
+  }
+
+  const prevText = btn ? btn.textContent : "";
+  if(btn){
+    btn.disabled = true;
+    btn.textContent = "正在导出...";
+  }
+
+  try{
+    const images=[...poster.querySelectorAll("img")];
+    await Promise.all(images.map(img=>{
+      if(img.complete) return Promise.resolve();
+      return new Promise(resolve=>{
+        img.onload=()=>resolve();
+        img.onerror=()=>resolve();
+      });
+    }));
+
+    const canvas=await html2canvas(poster,{
+      useCORS:true,
+      allowTaint:false,
+      backgroundColor:null,
+      scale:Math.min(window.devicePixelRatio || 2, 3)
+    });
+
+    const link=document.createElement("a");
+    link.download=`植间手记-${name || "分享海报"}.png`;
+    link.href=canvas.toDataURL("image/png");
+    link.click();
+  }catch(err){
+    console.error(err);
+    alert("导出失败");
+  }finally{
+    if(btn){
+      btn.disabled = false;
+      btn.textContent = prevText || "导出海报";
+    }
+  }
 }
 
 function resetData(){
