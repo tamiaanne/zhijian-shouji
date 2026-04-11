@@ -158,8 +158,10 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;back
   </div>
   <div class="wrap">
     <div class="card">
-      <button class="btn" onclick="pickImage()">拍照识别</button>
-      <input id="recognizeFile" type="file" accept="image/*" capture="environment" style="display:none" onchange="recognizeFromFile(event)" />
+     <button class="btn" onclick="pickCameraImage()">拍照识别</button>
+<button class="btn ghost" style="margin-top:10px;" onclick="pickAlbumImage()">上传图片识别</button>
+
+<input id="recognizeFile" type="file" accept="image/*" style="display:none" onchange="recognizeFromFile(event)" />
       <button class="btn ghost" style="margin-top:10px;" onclick="showPage('album')">直接看手记</button>
       <div id="recognizeResult"></div>
     </div>
@@ -353,9 +355,16 @@ function posterSticker(){
   return `<div class="poster-sticker"><span></span></div>`;
 }
 
-function pickImage(){
-  const input=document.getElementById("recognizeFile");
-  if(input) input.click();
+function pickCameraImage(){
+  const input = document.getElementById("recognizeFile");
+  input.setAttribute("capture", "environment");
+  input.click();
+}
+
+function pickAlbumImage(){
+  const input = document.getElementById("recognizeFile");
+  input.removeAttribute("capture");
+  input.click();
 }
 
 function normalizeName(v){
