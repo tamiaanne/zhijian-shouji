@@ -1,0 +1,930 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>植间手记</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap');
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;
+  font-family:"Noto Serif SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",serif;
+  color:#4f4a42;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(203,221,214,.20), transparent 18%),
+    radial-gradient(circle at 90% 12%, rgba(223,215,231,.16), transparent 22%),
+    radial-gradient(circle at 84% 88%, rgba(233,222,202,.14), transparent 18%),
+    #f7f5f0;
+}
+.app{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:92px;position:relative;overflow:hidden;background:linear-gradient(180deg,#fbfaf7,#f7f5f0 56%,#f2efe8);box-shadow:0 20px 48px rgba(44,54,51,.08)}
+.paper{position:absolute;inset:0;pointer-events:none;opacity:.12;background-image:radial-gradient(rgba(122,101,79,.14) .7px,transparent .7px),radial-gradient(rgba(122,101,79,.10) .6px,transparent .6px);background-size:13px 13px,19px 19px;background-position:0 0,7px 8px}
+.hero{padding:58px 20px 24px;position:relative;overflow:hidden}
+.hero-wash{position:absolute;inset:0;background:radial-gradient(circle at 10% 22%, rgba(186,205,197,.24), transparent 18%),radial-gradient(circle at 88% 18%, rgba(219,212,226,.18), transparent 20%),radial-gradient(circle at 48% 84%, rgba(224,217,198,.14), transparent 16%);filter:blur(4px)}
+.eyebrow,.title,.sub,.stats,.bar-wrap{position:relative;z-index:1}
+.eyebrow{font-size:12px;letter-spacing:.18em;color:#8d8776}
+.title{margin-top:12px;font-size:32px;line-height:1.12;font-weight:700;color:#2f3b37}
+.sub{margin-top:12px;font-size:15px;line-height:1.9;color:#6f756f}
+.stats{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:rgba(255,252,247,.74);border:1px solid #ece2d4;border-radius:18px;padding:12px 10px;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.stat .n{font-size:24px;font-weight:400;color:#6d745d}
+.stat .l{margin-top:4px;font-size:14px;color:#9d9584}
+.bar-wrap{margin-top:14px}
+.bar{height:10px;border-radius:999px;background:rgba(200,209,188,.34);overflow:hidden}
+.bar-inner{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#9fbca0,#d0d8a5);transition:width .3s ease}
+.wrap{padding:16px;position:relative;z-index:1}
+.section-title{margin-top:18px;display:flex;justify-content:space-between;align-items:center;font-size:24px;font-weight:700;color:#31403a}
+.muted{color:#8a8f88;font-size:12px;font-weight:500}
+.card{position:relative;background:rgba(255,255,255,.82);border:1px solid #ebe9e2;border-radius:28px;box-shadow:0 18px 40px rgba(46,59,54,.06);padding:16px;margin-top:14px;overflow:hidden;backdrop-filter:blur(10px)}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 8% 14%, rgba(190,216,193,.10), transparent 14%),radial-gradient(circle at 92% 12%, rgba(233,216,227,.08), transparent 14%);pointer-events:none}
+.row{display:flex;gap:12px}.row>*{flex:1}
+.btn{display:inline-block;width:100%;border:none;border-radius:999px;background:linear-gradient(135deg,#3f5d53,#6e9381);color:#fff;padding:13px 16px;font-size:15px;font-weight:600;box-shadow:0 8px 18px rgba(63,93,83,.18);font-family:inherit}
+.btn.ghost{background:rgba(255,255,255,.72);color:#56615d;border:1px solid #e8e6df;box-shadow:none}
+.btn.small{padding:10px 12px;font-size:14px}
+.search-box{margin-top:14px;display:flex;align-items:center;gap:10px;background:rgba(250,248,243,.95);border-radius:18px;padding:13px 14px;border:1px solid #e6dccf}
+.search-box input,.sheet textarea{border:none;outline:none;background:transparent;width:100%;font-size:14px;color:#55615d;font-family:inherit}
+.chips{display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:2px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:9px 14px;border-radius:999px;background:#f5f6f3;color:#6f7873;font-size:13px;border:1px solid #e8ebe6;font-family:inherit}
+.chip.active{background:#587a6c;color:#fff;border-color:#587a6c;font-weight:600}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.stamp{position:relative;border-radius:30px;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(250,249,246,.95));border:1px solid rgba(232,234,229,.96);box-shadow:0 18px 36px rgba(46,59,54,.07);overflow:hidden;min-height:292px;cursor:pointer}
+.stamp::before{content:"";position:absolute;inset:9px;border:1px dashed rgba(167,178,171,.55);border-radius:22px;pointer-events:none}
+.front-art,.detail-image{position:relative;border-radius:20px;overflow:hidden;background:radial-gradient(circle at 18% 24%, rgba(184,209,199,.34), transparent 22%),radial-gradient(circle at 82% 22%, rgba(223,215,229,.22), transparent 23%),radial-gradient(circle at 44% 82%, rgba(224,220,206,.18), transparent 22%),linear-gradient(180deg,#faf9f5,#f5f4ef);box-shadow:inset 0 0 0 1px rgba(223,211,188,.88)}
+.front-art{height:176px}
+.detail-image{height:220px}
+.front-art img,.detail-image img{position:absolute;inset:12px 12px 20px 12px;width:calc(100% - 24px);height:calc(100% - 32px);object-fit:cover;border-radius:18px;opacity:.9;mix-blend-mode:multiply;filter:saturate(.64) contrast(.94) brightness(1.03);-webkit-mask-image:radial-gradient(circle at 50% 42%, black 48%, transparent 76%);mask-image:radial-gradient(circle at 50% 42%, black 48%, transparent 76%)}
+.wc{position:absolute;border-radius:999px;filter:blur(.2px);z-index:1;opacity:.88}
+.wc1{width:72px;height:30px;left:6px;top:18px;background:rgba(143,188,152,.48);transform:rotate(-12deg)}
+.wc2{width:56px;height:24px;right:10px;top:30px;background:rgba(217,176,200,.38);transform:rotate(15deg)}
+.wc3{width:42px;height:18px;left:40%;bottom:28px;background:rgba(230,202,140,.30);transform:rotate(8deg)}
+.wc4{width:28px;height:12px;left:18px;bottom:22px;background:rgba(170,198,170,.28);transform:rotate(-7deg)}
+.masking-tape{position:absolute;top:8px;left:50%;transform:translateX(-50%) rotate(-3deg);width:60px;height:20px;background:rgba(238,228,182,.64);border:1px dashed rgba(190,173,126,.52);border-radius:4px;z-index:3;box-shadow:0 2px 6px rgba(106,88,56,.06)}
+.leaf-sticker,.poster-sticker{position:absolute;right:10px;bottom:18px;width:58px;height:38px;z-index:3;transform:rotate(-14deg)}
+.poster-sticker{right:22px;bottom:88px;width:52px;height:34px;z-index:2;transform:rotate(-10deg)}
+.leaf-sticker::before,.leaf-sticker::after,.poster-sticker::before,.poster-sticker::after{content:"";position:absolute;border-radius:100% 0 100% 0;background:linear-gradient(135deg,#d8ebd3,#b8d0af);border:2px solid rgba(255,255,255,.94);box-shadow:0 6px 12px rgba(95,129,98,.12)}
+.leaf-sticker::before{width:32px;height:22px;left:0;top:10px;transform:rotate(-14deg)}
+.leaf-sticker::after{width:30px;height:20px;right:2px;top:0;transform:rotate(24deg)}
+.poster-sticker::before{width:30px;height:20px;left:0;top:12px;transform:rotate(-14deg)}
+.poster-sticker::after{width:28px;height:18px;right:2px;top:2px;transform:rotate(24deg)}
+.leaf-sticker span,.poster-sticker span{position:absolute;left:10px;top:18px;width:30px;height:1.5px;background:rgba(91,125,91,.40);transform:rotate(12deg)}
+.stamp-no{position:absolute;top:10px;left:10px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.90);font-size:12px;color:#9a7f54;font-weight:700;letter-spacing:.08em;z-index:3}
+.stamp-stars{position:absolute;top:10px;right:10px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.90);font-size:12px;color:#d69257;font-weight:700;z-index:3}
+.stamp-name{margin-top:10px;font-size:20px;font-weight:700;color:#2f3b37}
+.stamp-sub{margin-top:4px;font-size:12px;color:#8a8f88}
+.seal{position:absolute;right:12px;bottom:10px;border:2px solid rgba(182,94,94,.48);color:rgba(182,94,94,.70);border-radius:999px;padding:5px 8px;font-size:11px;transform:rotate(-12deg);font-weight:700;background:rgba(255,255,255,.18)}
+.timeline-item{padding:14px 0;border-bottom:1px solid #eee5d9}
+.timeline-item:last-child{border-bottom:none}
+.timeline-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;color:#8d8578;font-size:15px}
+.timeline-note{margin-top:10px;background:#faf7f1;border:1px solid #ece1d4;border-radius:16px;padding:10px 12px;color:#6c6356;font-size:17px;line-height:1.6}
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.detail-overlay,.sheet-overlay{position:fixed;inset:0;background:rgba(61,53,45,.35);backdrop-filter:blur(4px);z-index:120;display:none;align-items:flex-end}
+.detail-overlay.show,.sheet-overlay.show{display:flex}
+.detail-sheet,.sheet{width:100%;max-width:430px;margin:0 auto;background:linear-gradient(180deg,#fffaf3,#fbf6ef);border-radius:28px 28px 0 0;border:1px solid #eadfce;box-shadow:0 -10px 30px rgba(85,70,55,.18);padding:16px 16px 22px;position:relative;max-height:86vh;overflow:auto}
+.detail-handle{width:44px;height:5px;border-radius:999px;background:#d6cdbf;margin:0 auto 12px}
+.detail-close{position:absolute;right:14px;top:14px;width:36px;height:36px;border:none;border-radius:999px;background:#f4eee5;color:#6d6558;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
+.detail-title{margin-top:14px;font-size:28px;color:#2f3b37;font-weight:700}
+.detail-sub{margin-top:6px;font-size:14px;color:#7a817b}
+.detail-block{margin-top:14px;background:rgba(255,252,248,.92);border:1px solid #ece1d4;border-radius:20px;padding:14px}
+.detail-meta{font-size:14px;line-height:1.9;color:#55615d}
+.sheet textarea{min-height:96px;resize:none;line-height:1.7}
+.label{font-size:18px;color:#6d624f;margin-bottom:8px}
+.poster{margin-top:14px;border-radius:28px;overflow:hidden;border:1px solid #eadfce;background:radial-gradient(circle at 18% 18%, rgba(190,224,194,.36), transparent 18%),radial-gradient(circle at 82% 16%, rgba(228,205,223,.26), transparent 18%),linear-gradient(180deg,#fbf7f0,#fffaf3);padding:12px}
+.poster-card{border-radius:22px;padding:14px;background:rgba(255,255,255,.82);backdrop-filter:blur(6px);border:1px solid #e7ddd2;position:relative;overflow:hidden}
+.poster-card::before{content:"";position:absolute;top:10px;right:12px;width:56px;height:20px;background:rgba(235,227,180,.62);border:1px dashed rgba(194,174,120,.48);border-radius:4px;transform:rotate(8deg)}
+.poster-card .poster-wc{position:absolute;border-radius:999px;filter:blur(.2px);opacity:.78}
+.poster-card .p1{width:78px;height:30px;left:12px;top:50px;background:rgba(154,196,160,.30);transform:rotate(-10deg)}
+.poster-card .p2{width:60px;height:24px;right:18px;top:66px;background:rgba(216,180,204,.24);transform:rotate(12deg)}
+.poster-card img{width:100%;height:180px;object-fit:cover;border-radius:18px;margin-top:10px;filter:saturate(.78);position:relative;z-index:1}
+.collection-list{margin-top:12px}
+.collection-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #efe7dc}
+.collection-item:last-child{border-bottom:none}
+.tabs{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:430px;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,253,249,.97);backdrop-filter:blur(10px);border-top:1px solid #ece2d5;z-index:50}
+.tab{padding:8px 4px 12px;text-align:center;color:#8d8677;font-size:14px}
+.tab.active{color:#6f9072;font-weight:400}
+.sticker-icon{width:46px;height:46px;margin:0 auto 5px;position:relative;border-radius:15px;background:linear-gradient(180deg,#fffdf9,#f8f0e6);border:1px solid #e7dccd;box-shadow:0 6px 12px rgba(109,93,76,.08);display:flex;align-items:center;justify-content:center}
+.sticker-icon::before{content:"";position:absolute;top:-4px;left:50%;transform:translateX(-50%) rotate(-4deg);width:24px;height:10px;background:rgba(235,227,180,.68);border:1px dashed rgba(194,174,120,.48);border-radius:3px}
+.sticker-icon svg{width:24px;height:24px;position:relative;z-index:1;stroke:#7d735f;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tab.active .sticker-icon svg{stroke:#6f9072}
+.icon-fill{fill:#dbe9d8;stroke:none}
+.icon-fill-soft{fill:#efe4d6;stroke:none}
+.hidden{display:none}
+.empty-box{margin-top:14px;padding:20px;border-radius:22px;background:rgba(255,252,247,.95);text-align:center;color:#a39a8d;font-size:18px;border:1px solid #e7ddd1}
+.poster-stage{position:fixed;left:-99999px;top:0;width:430px;pointer-events:none;opacity:1;z-index:-1}
+.poster-stage .poster{margin-top:0}
+@media (max-width:360px){.grid{grid-template-columns:1fr}.quick-actions{grid-template-columns:1fr}.title{font-size:26px}}
+.hand-accent{font-family:"Caveat","PingFang SC",cursive;letter-spacing:.02em}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:#f4efe7;padding:2px 5px;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="paper"></div>
+
+<div id="page-home">
+  <div class="hero">
+    <div class="hero-wash"></div>
+    <div class="eyebrow">LIVING BOTANICAL JOURNAL</div>
+    <div class="title"><span class="hand-accent">植间手记</span></div>
+    <div class="sub">把遇见的植物都记下来。</div>
+    <div class="bar-wrap"><div class="bar"><div class="bar-inner" id="progressBar"></div></div></div>
+    <div class="stats">
+      <div class="stat"><div class="n" id="statCollected">0</div><div class="l">已收集</div></div>
+      <div class="stat"><div class="n" id="statMissing">0</div><div class="l">待遇见</div></div>
+      <div class="stat"><div class="n" id="statPercent">0%</div><div class="l">收集进度</div></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="quick-actions">
+      <button class="btn" onclick="showPage('recognize')">📷 去识别</button>
+      <button class="btn ghost" onclick="showPage('album')">📒 打开手记</button>
+    </div>
+    
+
+   <div class="section-title">
+  <span class="hand-accent">最近记录</span>
+  <span class="muted">按时间回看</span>
+</div>
+
+<div id="timelineList"></div>
+  </div>
+</div>
+
+<div id="page-recognize" class="hidden">
+  <div class="hero">
+    <div class="hero-wash"></div>
+    <div class="eyebrow">RECOGNIZE</div>
+    <div class="title"><span class="hand-accent">植间手记</span></div>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <button class="btn" onclick="pickImage()">拍照识别</button>
+      <input id="recognizeFile" type="file" accept="image/*" capture="environment" style="display:none" onchange="recognizeFromFile(event)" />
+      <button class="btn ghost" style="margin-top:10px;" onclick="showPage('album')">直接看手记</button>
+      <div id="recognizeResult"></div>
+    </div>
+  </div>
+</div>
+
+<div id="page-album" class="hidden">
+  <div class="hero">
+    <div class="hero-wash"></div>
+    <div class="eyebrow">NOTEBOOK</div>
+    <div class="title"><span class="hand-accent">手记</span></div>
+    <div class="sub">这里收纳你记录过的植物。</div>
+  </div>
+  <div class="wrap">
+    <div class="search-box"><span>🔍</span><input id="searchInput" placeholder="搜索植物名、别名、学名" oninput="renderAlbum()" /></div>
+    <div class="chips" id="rarityChips"></div>
+    <div id="albumGrid" class="grid"></div>
+  </div>
+</div>
+
+<div id="page-my" class="hidden">
+  <div class="hero">
+    <div class="hero-wash"></div>
+    <div class="eyebrow">MY JOURNAL</div>
+    <div class="title"><span class="hand-accent">我的</span></div>
+    <div class="sub">把遇见的植物都记下来。</div>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <div style="font-size:20px;color:#2f3b37;font-weight:700;">植物探索者</div>
+      <div class="muted" style="margin-top:6px;">你的收集与记录会自动保存在本机浏览器里。</div>
+      <div class="row" style="margin-top:14px;">
+        <div class="card" style="margin-top:0;padding:14px;text-align:center;"><div style="font-size:22px;color:#6f7960;" id="myCollected">0</div><div class="muted">已收录</div></div>
+        <div class="card" style="margin-top:0;padding:14px;text-align:center;"><div style="font-size:22px;color:#6f7960;" id="myPercent">0%</div><div class="muted">完成度</div></div>
+      </div>
+      <button class="btn ghost" style="margin-top:10px;" onclick="resetData()">清空本地记录</button>
+    </div>
+    <div class="card"><div style="font-size:16px;color:#2f3b37;font-weight:700;">最近记录</div><div id="collectionList" class="collection-list"></div></div>
+    <div id="posterArea"></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-page="home" onclick="showPage('home')"><div class="sticker-icon"><svg viewBox="0 0 24 24"><path class="icon-fill-soft" d="M5 11.2L12 5l7 6.2V19a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19z"/><path d="M3.8 11.5L12 4.5l8.2 7"/><path d="M9.5 20.5v-5.2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5.2"/></svg></div>首页</div>
+  <div class="tab" data-page="recognize" onclick="showPage('recognize')"><div class="sticker-icon"><svg viewBox="0 0 24 24"><path class="icon-fill" d="M5.5 8.5h13a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"/><path d="M8 8.5l1.2-2h5.6l1.2 2"/><circle cx="12" cy="14" r="3.2"/><path d="M7 11.2h.01"/></svg></div>识别</div>
+  <div class="tab" data-page="album" onclick="showPage('album')"><div class="sticker-icon"><svg viewBox="0 0 24 24"><path class="icon-fill-soft" d="M6 4.5h10.5a2 2 0 0 1 2 2v12.8H8a2 2 0 0 0-2 2z"/><path d="M6 4.5h10.5a2 2 0 0 1 2 2v12.8H8a2 2 0 0 0-2 2z"/><path d="M6 4.5v14.8a2 2 0 0 1 2-2h10.5"/><path d="M10 8.5h5.5"/><path d="M10 11.5h5.5"/><path d="M10 14.5h4"/></svg></div>手记</div>
+  <div class="tab" data-page="my" onclick="showPage('my')"><div class="sticker-icon"><svg viewBox="0 0 24 24"><path class="icon-fill" d="M7.5 15.8c3.5 0 6.8-2.3 8.6-6.8-4.5.2-8 3.2-8.6 6.8z"/><path d="M7.5 15.8c3.5 0 6.8-2.3 8.6-6.8-4.5.2-8 3.2-8.6 6.8z"/><path d="M7.2 16.1c-.5 1.1-.7 2.2-.7 3.4"/><path d="M9.2 12.7c1.8.5 3.4 1.5 4.8 3"/></svg></div>我的</div>
+</div>
+
+<div id="detailOverlay" class="detail-overlay" onclick="closeDetail(event)">
+  <div class="detail-sheet" onclick="event.stopPropagation()">
+    <div class="detail-handle"></div>
+    <button class="detail-close" onclick="closeDetail()">×</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<div id="noteSheet" class="sheet-overlay" onclick="closeNoteSheet(event)">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="detail-handle"></div>
+    <div class="label" style="margin-top:10px;">今天在哪里遇见它，或者想记下什么？</div>
+    <textarea id="noteInput" placeholder="例如：小区门口看到它开花了。"></textarea>
+    <div class="row" style="margin-top:14px;">
+      <button class="btn ghost" onclick="closeNoteSheet()">先不写</button>
+      <button class="btn" onclick="savePendingPlant()">保存记录</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="posterStage" class="poster-stage" aria-hidden="true"></div>
+
+<script>
+const STORAGE_KEY="plant_journal_stable_v1";
+const REAL_RECOGNIZE_API="https://1421199570-0ygi3bea7u.ap-shanghai.tencentscf.com";
+const PLANTS_JSON_URL="./plants.json";
+let plants=[];
+let collected=[];
+let currentRarity="全部";
+let pendingPlantId=null;
+
+function renderDataLoadError(message){
+  const html=`<div class="empty-box">${message||"植物数据加载失败，请检查 plants.json 是否存在。"}</div>`;
+  const timeline=document.getElementById("timelineList");
+  const album=document.getElementById("albumGrid");
+  const collection=document.getElementById("collectionList");
+  if(timeline) timeline.innerHTML=html;
+  if(album) album.innerHTML=html;
+  if(collection) collection.innerHTML=`<div class="muted">${message||"植物数据加载失败"}</div>`;
+  document.getElementById("recognizeResult").innerHTML=`<div class="card"><div style="font-size:20px;color:#8a5b5b;">植物数据加载失败</div><div style="margin-top:10px;color:#6f6b61;font-size:16px;line-height:1.8;">${message||"请检查 plants.json 文件是否已上传到同一目录。"}</div></div>`;
+}
+
+async function loadPlants(){
+  const resp=await fetch(`${PLANTS_JSON_URL}?v=${Date.now()}`, {cache:"no-store"});
+  if(!resp.ok){
+    throw new Error(`plants.json 读取失败（${resp.status}）`);
+  }
+  const data=await resp.json();
+  if(!Array.isArray(data)){
+    throw new Error("plants.json 格式不正确，必须是数组");
+  }
+  plants=data;
+}
+
+
+function plantImage(p){
+  const name = (p.name || "")
+    .trim()
+    .replace(/\s+/g,'')
+    .replace(/[（(].*?[）)]/g,''); // 去掉括号内容
+
+  return `images/${name}.jpg`;
+}
+function imageTag(p, extraStyle=""){
+  const fallback = p.img || "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80";
+  const fallbackEscaped = fallback.replace(/'/g, "\'");
+  return `<img src="${plantImage(p)}" alt="${p.name}" crossorigin="anonymous" style="${extraStyle}" onerror="this.onerror=null;this.crossOrigin='anonymous';this.src='${fallbackEscaped}'">`;
+}
+
+function todayText(){
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return `${y}.${m}.${day}`;
+}
+function nowText(){
+  const d=new Date();
+  const hh=String(d.getHours()).padStart(2,"0");
+  const mm=String(d.getMinutes()).padStart(2,"0");
+  return `${todayText()} ${hh}:${mm}`;
+}
+function stars(n){ return "★".repeat(n)+"☆".repeat(5-n); }
+
+function saveData(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(collected));
+}
+function loadData(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    collected=raw ? JSON.parse(raw) : [{plantId:plants[0]?.id||1, checkedAt:todayText(), datetime:nowText(), note:""}];
+  }catch{
+    collected=[{plantId:plants[0]?.id||1, checkedAt:todayText(), datetime:nowText(), note:""}];
+  }
+}
+function uniquePlantIds(){
+  return [...new Set(collected.map(v=>v.plantId))];
+}
+function isCollected(id){
+  return collected.some(v=>v.plantId===id);
+}
+function getLatestRecord(id){
+  return [...collected].reverse().find(v=>v.plantId===id);
+}
+
+function updateStats(){
+  const total=plants.length;
+  const unique=uniquePlantIds().length;
+  const miss=total-unique;
+  const percent=total ? Math.round((unique/total)*100) : 0;
+  document.getElementById("statCollected").textContent=unique;
+  document.getElementById("statMissing").textContent=miss;
+  document.getElementById("statPercent").textContent=percent+"%";
+  document.getElementById("progressBar").style.width=percent+"%";
+  document.getElementById("myCollected").textContent=unique;
+  document.getElementById("myPercent").textContent=percent+"%";
+}
+
+function showPage(page){
+  ["home","recognize","album","my"].forEach(p=>{
+    const el=document.getElementById("page-"+p);
+    if(el) el.classList.toggle("hidden", p!==page);
+  });
+  document.querySelectorAll(".tab").forEach(el=>{
+    el.classList.toggle("active", el.dataset.page===page);
+  });
+  if(page==="home") renderHome();
+  if(page==="album") renderAlbum();
+  if(page==="my") renderMy();
+  window.scrollTo(0,0);
+}
+
+function artDecor(){
+  return `<div class="masking-tape"></div><div class="wc wc1"></div><div class="wc wc2"></div><div class="wc wc3"></div><div class="wc wc4"></div>`;
+}
+function sticker(){
+  return `<div class="leaf-sticker"><span></span></div>`;
+}
+function posterSticker(){
+  return `<div class="poster-sticker"><span></span></div>`;
+}
+
+function pickImage(){
+  const input=document.getElementById("recognizeFile");
+  if(input) input.click();
+}
+
+function normalizeName(v){
+  return String(v||"")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[（(].*?[）)]/g,"")
+    .replace(/[·•・]/g,"")
+    .replace(/属$/,"");
+}
+
+function fileToCompressedBase64(file, maxSide=1280, quality=0.86){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        let {width,height}=img;
+        const longest=Math.max(width,height);
+        if(longest>maxSide){
+          const scale=maxSide/longest;
+          width=Math.round(width*scale);
+          height=Math.round(height*scale);
+        }
+        const canvas=document.createElement("canvas");
+        canvas.width=width;
+        canvas.height=height;
+        const ctx=canvas.getContext("2d");
+        ctx.drawImage(img,0,0,width,height);
+        const base64=canvas.toDataURL("image/jpeg", quality).split(",")[1];
+        resolve(base64);
+      };
+      img.onerror=reject;
+      img.src=reader.result;
+    };
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function findPlantByApiName(apiName){
+  const key=normalizeName(apiName);
+  if(!key) return null;
+
+  const exact=plants.find(p=>{
+    return [p.name,p.alias,p.latin].some(v=>normalizeName(v)===key);
+  });
+  if(exact) return exact;
+
+  return plants.find(p=>{
+    return [p.name,p.alias,p.latin].some(v=>{
+      const n=normalizeName(v);
+      return n && (n.includes(key) || key.includes(n));
+    });
+  }) || null;
+}
+
+function renderRecognizeLoading(){
+  document.getElementById("recognizeResult").innerHTML=`
+    <div class="card">
+      <div style="font-size:22px;color:#6d624f;">正在识别</div>
+      <div style="margin-top:10px;color:#6f6b61;font-size:16px;line-height:1.8;">照片已上传，正在匹配植物名称…</div>
+    </div>`;
+}
+
+function renderRecognizeError(message){
+  document.getElementById("recognizeResult").innerHTML=`
+    <div class="card">
+      <div style="font-size:22px;color:#8a5b5b;">识别失败</div>
+      <div style="margin-top:10px;color:#6f6b61;font-size:16px;line-height:1.8;">${message||"接口调用失败，请检查识图接口地址。"}</div>
+    </div>`;
+}
+
+function renderRecognizeCard(plant, score, rawName){
+  document.getElementById("recognizeResult").innerHTML=`
+    <div class="card">
+      <div class="front-art" style="height:220px;">
+        ${artDecor()}
+        ${imageTag(plant,"height:192px;")}
+        <div class="stamp-no">NO.${plant.no}</div>
+        <div class="stamp-stars">${stars(plant.rarity||1)}</div>
+        ${sticker()}
+      </div>
+      <div style="margin-top:14px;font-size:28px;color:#6d624f;">${plant.name}</div>
+      <div style="margin-top:6px;color:#8f8777;font-size:17px;">${plant.alias||""} · ${plant.latin||""}</div>
+      <div class="chip active" style="display:inline-block;margin-top:10px;">匹配度 ${Math.round((score||0)*100)}%</div>
+      <div style="margin-top:12px;color:#6f6b61;font-size:18px;line-height:1.8;">
+        ${plant.desc||""}
+        <div style="margin-top:8px;font-size:14px;color:#9a9285;">识图结果：${rawName||plant.name}</div>
+      </div>
+      <div class="row" style="margin-top:14px;">
+        <button class="btn small" onclick="startCollect(${plant.id})">加入手记</button>
+        <button class="btn ghost small" onclick="openPoster(${plant.id}, 'share')">分享图片</button>
+      </div>
+    </div>`;
+}
+
+function renderRecognizeFallback(apiName, score){
+  document.getElementById("recognizeResult").innerHTML=`
+    <div class="card">
+      <div style="font-size:24px;color:#6d624f;">识别到了：${apiName||"未知植物"}</div>
+      <div class="chip active" style="display:inline-block;margin-top:10px;">匹配度 ${Math.round((score||0)*100)}%</div>
+      <div style="margin-top:12px;color:#6f6b61;font-size:17px;line-height:1.8;">
+        这张照片已经完成真实识别，但你的本地图鉴里暂时没有找到对应植物。<br>
+        你可以先记住这个识别名，后面再补进 plants 数据库。
+      </div>
+    </div>`;
+}
+
+async function recognizeFromFile(event){
+  const file=event.target.files && event.target.files[0];
+  if(!file) return;
+
+  renderRecognizeLoading();
+
+  try{
+    const image=await fileToCompressedBase64(file);
+    const resp=await fetch(REAL_RECOGNIZE_API,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({image})
+    });
+
+    const data=await resp.json().catch(()=>({}));
+    if(!resp.ok){
+      throw new Error(data.error || data.message || "识图接口返回异常");
+    }
+
+    const apiName=data.name || "";
+    const score=Number(data.score || 0);
+    const matchedPlant=findPlantByApiName(apiName);
+
+    if(matchedPlant){
+      renderRecognizeCard(matchedPlant, score, apiName);
+    }else{
+      renderRecognizeFallback(apiName, score);
+    }
+  }catch(err){
+    renderRecognizeError(err.message);
+  }finally{
+    event.target.value="";
+  }
+}
+
+function startCollect(id){
+  pendingPlantId=id;
+  document.getElementById("noteInput").value="";
+  document.getElementById("noteSheet").classList.add("show");
+}
+function closeNoteSheet(e){
+  if(!e || e.target.id==="noteSheet"){
+    document.getElementById("noteSheet").classList.remove("show");
+    pendingPlantId=null;
+  }
+}
+function savePendingPlant(){
+  if(!pendingPlantId) return;
+  const note=document.getElementById("noteInput").value.trim();
+  collected.push({
+    plantId:pendingPlantId,
+    checkedAt:todayText(),
+    datetime:nowText(),
+    note
+  });
+  saveData();
+  pendingPlantId=null;
+  document.getElementById("noteSheet").classList.remove("show");
+  updateStats();
+  renderHome();
+  renderAlbum();
+  renderMy();
+  alert("已记进植间手记");
+}
+
+function stampFront(p){
+  return `
+    <div class="front-art">
+      ${artDecor()}
+      <div class="stamp-no">NO.${p.no}</div>
+      <div class="stamp-stars">${stars(p.rarity||1)}</div>
+      ${imageTag(p)}
+      ${sticker()}
+    </div>
+    <div class="stamp-name">${p.name}</div>
+    <div class="stamp-sub">把遇见的植物都记下来</div>
+    <div class="seal">已收录</div>
+  `;
+}
+
+function renderHome(){
+  updateStats();
+  const list=document.getElementById("timelineList");
+  if(!collected.length){
+    list.innerHTML=`<div class="empty-box">你还没有记录植物，先去识别一株吧。</div>`;
+    return;
+  }
+  const latest=[...collected].reverse().slice(0,3);
+  list.innerHTML=latest.map(item=>{
+    const p=plants.find(x=>x.id===item.plantId);
+    if(!p) return "";
+    return `
+      <div class="card timeline-item">
+        <div class="stamp" onclick="openDetail(${p.id})">
+          <div>${stampFront(p)}</div>
+        </div>
+        <div class="timeline-meta">
+          <span>${item.datetime||item.checkedAt}</span>
+          <span>${stars(p.rarity||1)}</span>
+        </div>
+        ${item.note ? `<div class="timeline-note">✍️ ${item.note}</div>` : ``}
+      </div>
+    `;
+  }).join("");
+}
+
+function renderRarityChips(){
+  const levels=["全部","2星","3星","4星","5星"];
+  document.getElementById("rarityChips").innerHTML=levels.map(level=>`
+    <button class="chip ${currentRarity===level?'active':''}" onclick="setRarity('${level}')">${level}</button>
+  `).join("");
+}
+function setRarity(level){
+  currentRarity=level;
+  renderRarityChips();
+  renderAlbum();
+}
+
+function renderAlbum(){
+  renderRarityChips();
+  const keyword=(document.getElementById("searchInput")?.value||"").trim().toLowerCase();
+  const ids=uniquePlantIds();
+  const filtered=plants.filter(p=>{
+    if(!ids.includes(p.id)) return false;
+    const source=[p.name,p.alias||"",p.latin||""].join("|").toLowerCase();
+    const hitKeyword=!keyword || source.includes(keyword);
+    const hitRarity=currentRarity==="全部" || `${p.rarity}星`===currentRarity;
+    return hitKeyword && hitRarity;
+  });
+  const wrap=document.getElementById("albumGrid");
+  if(!filtered.length){
+    wrap.innerHTML=`<div class="empty-box" style="grid-column:1/3;">你还没有已记录的植物，先去识别一株吧。</div>`;
+    return;
+  }
+  wrap.innerHTML=filtered.map(p=>`
+    <div class="stamp" onclick="openDetail(${p.id})">
+      <div>${stampFront(p)}</div>
+    </div>
+  `).join("");
+}
+
+function renderMy(){
+  updateStats();
+  const box=document.getElementById("collectionList");
+  if(!collected.length){
+    box.innerHTML=`<div class="muted">还没有记录</div>`;
+    return;
+  }
+  box.innerHTML=[...collected].reverse().slice(0,8).map(v=>{
+    const p=plants.find(x=>x.id===v.plantId);
+    if(!p) return "";
+    return `
+      <div class="collection-item">
+        <div>
+          <div style="font-size:20px;color:#6c6557;">${p.name}</div>
+          <div class="muted" style="margin-top:4px;">记于 ${v.datetime||v.checkedAt}</div>
+        </div>
+        <button class="btn ghost small" style="width:auto;padding:8px 12px;" onclick="openPoster(${p.id}, 'share')">分享图片</button>
+      </div>
+    `;
+  }).join("");
+}
+
+function openDetail(id){
+  const p=plants.find(v=>v.id===id);
+  const latest=getLatestRecord(id);
+  if(!p) return;
+  document.getElementById("detailContent").innerHTML=`
+    <div class="detail-image">
+      ${artDecor()}
+      ${imageTag(p)}
+      <div class="stamp-no">NO.${p.no}</div>
+      <div class="stamp-stars">${stars(p.rarity||1)}</div>
+      ${sticker()}
+    </div>
+    <div class="detail-title">${p.name}</div>
+    <div class="detail-sub">${p.alias||""} · ${p.latin||""}</div>
+    <div class="detail-block">
+      <div class="detail-meta">
+        编号：NO.${p.no}<br>
+        学名：${p.latin||"—"}<br>
+        稀有度：${stars(p.rarity||1)}<br>
+        最近记录：${latest ? (latest.datetime||latest.checkedAt) : "未记录"}<br>
+        最近备注：${latest && latest.note ? latest.note : "这一次还没有写备注"}<br>
+        植物说明：${p.desc||""}
+      </div>
+      <div class="row" style="margin-top:14px;">
+        <button class="btn small" onclick="openPoster(${p.id}, 'share')">分享卡片</button>
+        <button class="btn ghost small" onclick="removePlant(${p.id});closeDetail()">移出手记</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("detailOverlay").classList.add("show");
+}
+function closeDetail(e){
+  if(!e || e.target.id==="detailOverlay"){
+    document.getElementById("detailOverlay").classList.remove("show");
+  }
+}
+
+function buildPosterHtml(p, latest){
+  const safeName=String(p.name||"").replace(/'/g,"\'");
+  const rarity=stars(p.rarity||1);
+  const note=(latest&&latest.note)?latest.note:"把遇见的植物都记下来。";
+  return `
+    <div class="poster">
+      <div class="poster-card" id="posterCardExport">
+        <div class="poster-wc p1"></div>
+        <div class="poster-wc p2"></div>
+        ${posterSticker()}
+        <div style="font-size:12px;letter-spacing:.2em;color:#7ca583;">LIVING JOURNAL</div>
+        <div style="margin-top:8px;font-size:30px;color:#6c6557;">植间手记</div>
+        ${imageTag(p)}
+        <div style="margin-top:12px;font-size:24px;color:#6d624f;">${p.name}</div>
+        <div style="margin-top:6px;color:#8f8777;font-size:17px;">${p.alias||""} · ${rarity}</div>
+        <div style="margin-top:12px;background:#faf8f4;border-radius:16px;padding:12px 14px;white-space:pre-line;font-size:18px;line-height:1.75;color:#6b665b;">${note}
+
+我已收集 ${uniquePlantIds().length}/${plants.length} 种植物 🌿
+最近遇见：${p.name}
+时间：${latest ? (latest.datetime||latest.checkedAt) : todayText()}
+来自：植间手记</div>
+      </div>
+      <div class="row" style="margin-top:14px;">
+        <button class="btn" id="sharePosterBtn" onclick="sharePosterAsImage('${safeName}')">分享图片</button>
+        <button class="btn ghost" onclick="copyPosterText('${safeName}','${rarity}')">复制文案</button>
+      </div>
+    </div>
+  `;
+}
+
+function openPoster(id, action='preview'){
+  const p=plants.find(v=>v.id===id);
+  const latest=getLatestRecord(id);
+  if(!p) return;
+  const safeName=String(p.name||"").replace(/'/g,"\'");
+  const posterHtml=buildPosterHtml(p, latest);
+  const stage=document.getElementById('posterStage');
+  const posterArea=document.getElementById('posterArea');
+
+  if(action==='preview'){
+    if(posterArea) posterArea.innerHTML=posterHtml;
+    showPage('my');
+  }else{
+    if(stage) stage.innerHTML=posterHtml;
+    closeDetail();
+  }
+
+  if(action==='share'){
+    setTimeout(()=>sharePosterAsImage(safeName), 220);
+  }else if(action==='download'){
+    setTimeout(()=>exportPosterAsPng(safeName), 220);
+  }
+}
+
+function openPosterFromLatest(action='preview'){
+  const latest=collected[collected.length-1];
+  if(!latest){
+    alert("你还没有记下植物");
+    return;
+  }
+  openPoster(latest.plantId, action);
+}
+
+function copyPosterText(name, rarity){
+  const text=`把遇见的植物都记下来。
+
+我已收集 ${uniquePlantIds().length}/${plants.length} 种植物 🌿
+最近遇见：${name}
+稀有度：${rarity}
+来自：植间手记`;
+  navigator.clipboard?.writeText(text).then(()=>alert("分享文案已复制")).catch(()=>alert(text));
+}
+
+function loadScriptOnce(src){
+  return new Promise((resolve,reject)=>{
+    const existed=[...document.scripts].find(s=>s.src===src);
+    if(existed){
+      if(typeof html2canvas==="function"){
+        resolve();
+      }else{
+        existed.addEventListener("load", ()=>resolve(), {once:true});
+        existed.addEventListener("error", ()=>reject(new Error(`加载失败: ${src}`)), {once:true});
+      }
+      return;
+    }
+    const script=document.createElement("script");
+    script.src=src;
+    script.async=true;
+    script.onload=()=>resolve();
+    script.onerror=()=>reject(new Error(`加载失败: ${src}`));
+    document.head.appendChild(script);
+  });
+}
+
+async function ensureHtml2CanvasLoaded(){
+  if(typeof html2canvas==="function") return true;
+  if(window.__html2canvasLoadingPromise) return window.__html2canvasLoadingPromise;
+
+  const sources=[
+    "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js",
+    "https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js",
+    "https://cdn.bootcdn.net/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",
+    "./html2canvas.min.js"
+  ];
+
+  window.__html2canvasLoadingPromise=(async ()=>{
+    let lastError=null;
+    for(const src of sources){
+      try{
+        await loadScriptOnce(src);
+        if(typeof html2canvas==="function") return true;
+      }catch(err){
+        lastError=err;
+        console.warn(err);
+      }
+    }
+    throw lastError || new Error("html2canvas 加载失败");
+  })();
+
+  try{
+    return await window.__html2canvasLoadingPromise;
+  }finally{
+    window.__html2canvasLoadingPromise=null;
+  }
+}
+
+
+async function createPosterBlob(name){
+  const poster=document.getElementById("posterCardExport");
+  if(!poster){
+    throw new Error("请先生成分享卡片");
+  }
+
+  await ensureHtml2CanvasLoaded();
+
+  const images=[...poster.querySelectorAll("img")];
+  await Promise.all(images.map(img=>{
+    if(img.complete) return Promise.resolve();
+    return new Promise(resolve=>{
+      img.onload=()=>resolve();
+      img.onerror=()=>resolve();
+    });
+  }));
+
+  const canvas=await html2canvas(poster,{
+    useCORS:true,
+    allowTaint:false,
+    backgroundColor:null,
+    scale:Math.min(window.devicePixelRatio || 2, 3)
+  });
+
+  return await new Promise((resolve,reject)=>{
+    canvas.toBlob(blob=>{
+      if(blob) resolve(blob);
+      else reject(new Error("图片生成失败"));
+    },"image/png");
+  });
+}
+
+async function sharePosterAsImage(name){
+  const btn=document.getElementById("sharePosterBtn");
+  const prevText=btn?btn.textContent:"";
+  try{
+    if(btn){
+      btn.disabled=true;
+      btn.textContent="正在生成图片...";
+    }
+
+    const blob=await createPosterBlob(name);
+    const file=new File([blob], `植间手记-${name || "分享卡片"}.png`, {type:"image/png"});
+
+    if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+      if(btn) btn.textContent="正在调起分享...";
+      await navigator.share({
+        files:[file],
+        title:`植间手记-${name || "分享卡片"}`,
+        text:"把遇见的植物都记下来。"
+      });
+      return;
+    }
+
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.download=`植间手记-${name || "分享卡片"}.png`;
+    link.href=url;
+    link.click();
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+    alert("当前环境不支持系统分享，已自动下载 PNG 图片。你可以到相册或文件里分享它。");
+  }catch(err){
+    console.error(err);
+    alert("分享失败：可能是导出组件未加载成功，或海报里用了跨域外链图片。优先使用本地 images 目录图片。
+
+" + (err.message || ""));
+  }finally{
+    if(btn){
+      btn.disabled=false;
+      btn.textContent=prevText || "分享图片";
+    }
+  }
+}
+
+async function exportPosterAsPng(name){
+  try{
+    const blob=await createPosterBlob(name);
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.download=`植间手记-${name || "分享海报"}.png`;
+    link.href=url;
+    link.click();
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  }catch(err){
+    console.error(err);
+    alert("导出失败：导出组件没有成功加载，或海报里有跨域外链图片。优先使用本地 images 目录图片；若仍失败，把 html2canvas.min.js 放到当前目录后再试。
+
+" + (err.message || ""));
+  }
+}
+
+function removePlant(id){
+  collected=collected.filter(v=>v.plantId!==id);
+  saveData();
+  updateStats();
+  renderHome();
+  renderAlbum();
+  renderMy();
+  alert("已从植间手记移除");
+}
+
+function resetData(){
+  if(!confirm("确定清空本地记录吗？")) return;
+  collected=[];
+  saveData();
+  updateStats();
+  document.getElementById("recognizeResult").innerHTML="";
+  document.getElementById("posterArea").innerHTML="";
+  renderHome();
+  renderAlbum();
+  renderMy();
+}
+
+async function initApp(){
+  try{
+    await loadPlants();
+    loadData();
+    updateStats();
+    renderHome();
+    renderRarityChips();
+    renderAlbum();
+    renderMy();
+  }catch(err){
+    console.error(err);
+    renderDataLoadError(err.message || "植物数据加载失败");
+  }
+}
+
+initApp();
+</script>
+</body>
+</html>
