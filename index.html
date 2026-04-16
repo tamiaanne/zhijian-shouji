@@ -623,19 +623,18 @@ function renderMy(){
     box.innerHTML=`<div class="muted">还没有记录</div>`;
     return;
   }
-  box.innerHTML=[...collected].reverse().slice(0,8).map(v=>{
-    const p=plants.find(x=>x.id===v.plantId);
-    if(!p) return "";
-    return `
-      <div class="collection-item">
-        <div>
-          <div style="font-size:20px;color:#6c6557;">${p.name}</div>
-          <div class="muted" style="margin-top:4px;">记于 ${v.datetime||v.checkedAt}</div>
-        </div>
-        <button class="btn ghost small" style="width:auto;padding:8px 12px;" onclick="openPoster(${p.id})">分享</button>
+ box.innerHTML=[...collected].reverse().slice(0,8).map(v=>{
+  const p=plants.find(x=>x.id===v.plantId);
+  if(!p) return "";
+  return `
+    <div class="collection-item">
+      <div>
+        <div style="font-size:20px;color:#6c6557;">${p.name}</div>
+        <div class="muted" style="margin-top:4px;">记于 ${v.datetime||v.checkedAt}</div>
       </div>
-    `;
-  }).join("");
+    </div>
+  `;
+}).join("");
 }
 
 function openDetail(id){
