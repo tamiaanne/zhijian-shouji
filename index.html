@@ -197,7 +197,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;back
         <div class="card" style="margin-top:0;padding:14px;text-align:center;"><div style="font-size:22px;color:#6f7960;" id="myCollected">0</div><div class="muted">已收录</div></div>
         <div class="card" style="margin-top:0;padding:14px;text-align:center;"><div style="font-size:22px;color:#6f7960;" id="myPercent">0%</div><div class="muted">完成度</div></div>
       </div>
-      <button class="btn" onclick="openPosterFromLatest(true)">一键生成分享海报</button>
+    
       <button class="btn ghost" style="margin-top:10px;" onclick="resetData()">清空本地记录</button>
     </div>
     <div class="card"><div style="font-size:16px;color:#2f3b37;font-weight:700;">最近记录</div><div id="collectionList" class="collection-list"></div></div>
@@ -458,7 +458,7 @@ function renderRecognizeCard(plant, score, rawName){
       </div>
       <div class="row" style="margin-top:14px;">
         <button class="btn small" onclick="startCollect(${plant.id})">加入手记</button>
-        <button class="btn ghost small" onclick="openPoster(${plant.id})">分享海报</button>
+        <button class="btn ghost small" style="width:auto;padding:8px 12px;" onclick="openPoster(${p.id}, true)">分享</button>
       </div>
     </div>`;
 }
@@ -662,7 +662,7 @@ function openDetail(id){
         植物说明：${p.desc||""}
       </div>
       <div class="row" style="margin-top:14px;">
-        <button class="btn small" onclick="openPoster(${p.id})">分享卡片</button>
+       <button class="btn small" onclick="openPoster(${p.id}, true)">分享卡片</button>
         <button class="btn ghost small" onclick="removePlant(${p.id});closeDetail()">移出手记</button>
       </div>
     </div>
